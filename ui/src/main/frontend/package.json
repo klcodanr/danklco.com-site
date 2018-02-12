@@ -1,0 +1,27 @@
+{
+  "name": "danklco-com-front-end",
+  "version": "1.0.0",
+  "description": "Scripts to power the front-end of the domain DanKlco.com.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/npm/npm.git"
+  },
+  "dependencies": {
+  	"jquery": "^3.3.1",
+  	"bootstrap": "^4.0.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^3.0.0",
+    "gulp-concat-css": "^3.0.0",
+    "gulp-clean-css": "^3.9.2",
+    "merge-stream": "^1.0.1",
+    "gulp-order": "^1.1.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "Creative Commons non-Commercial Attribution"
+}
