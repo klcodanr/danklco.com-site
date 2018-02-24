@@ -1,0 +1,81 @@
+ {
+	"jcr:primaryType": "nt:unstructured",
+	"sling:resourceType": "sling-cms/components/editor/slingform",
+	"button": "Save Project",
+	"fields": {
+		"jcr:primaryType": "nt:unstructured",
+		"sling:resourceType": "sling-cms/components/general/container",
+		"clientName": {
+			"jcr:primaryType": "nt:unstructured",
+			"sling:resourceType": "sling-cms/components/editor/fields/text",
+			"label": "Client Name",
+			"name": "clientName",
+			"required": true
+		},
+		"projectName": {
+			"jcr:primaryType": "nt:unstructured",
+			"sling:resourceType": "sling-cms/components/editor/fields/text",
+			"label": "Project Name",
+			"name": "projectName",
+			"required": true
+		},
+		"projectRole": {
+			"jcr:primaryType": "nt:unstructured",
+			"sling:resourceType": "sling-cms/components/editor/fields/text",
+			"label": "Project Role",
+			"name": "projectRole",
+			"required": true
+		},
+		"startDate": {
+			"jcr:primaryType": "nt:unstructured",
+			"sling:resourceType": "sling-cms/components/editor/fields/text",
+			"label": "Start Date",
+			"name": "startDate",
+			"type": "date",
+			"required": true
+		},
+		"endDate": {
+			"jcr:primaryType": "nt:unstructured",
+			"sling:resourceType": "sling-cms/components/editor/fields/text",
+			"label": "End Date",
+			"name": "endDate",
+			"type": "date",
+			"required": true
+		},
+		"image": {
+			"jcr:primaryType": "nt:unstructured",
+			"sling:resourceType": "sling-cms/components/editor/fields/path",
+			"basePath": "/content/danklco-com",
+			"type": "sling:File",
+			"label": "Image",
+			"name": "image",
+			"titleProperty": "jcr:content/jcr:title",
+			"required": true
+		},
+		"tasks": {
+			"jcr:primaryType": "nt:unstructured",
+			"sling:resourceType": "sling-cms/components/editor/fields/repeating",
+			"label": "Tasks",
+			"name": "tasks",
+			"required": true
+		},
+		"tasksTypeHint": {
+			"jcr:primaryType": "nt:unstructured",
+			"sling:resourceType": "sling-cms/components/editor/fields/hidden",
+			"name": "tasks@TypeHint",
+			"value": "String[]"
+		},
+		"tools": {
+			"jcr:primaryType": "nt:unstructured",
+			"sling:resourceType": "sling-cms/components/editor/fields/taxonomy",
+			"label": "Tools",
+			"name": "tools"
+		},
+		"resourceType": {
+			"jcr:primaryType": "nt:unstructured",
+			"sling:resourceType": "sling-cms/components/editor/fields/hidden",
+			"name": "sling:resourceType",
+			"value": "danklco-com/components/general/project"
+		}
+	}
+}

@@ -19,6 +19,11 @@ var vendorCssStream = gulp.src([
 
 gulp.task('styles', function() {
 	 var mergedStream = merge(cssStream, vendorCssStream)
+		.pipe(order([
+			'node_modules/bootstrap/dist/css/bootstrap.min.css',
+			'node_modules/font-awesome/css/font-awesome.min.css',
+			'src/css/*.css',
+		], { base: './' }))
      	.pipe(concat('styles.min.css'))
         .pipe(gulp.dest('./dist/jcr_root/etc/clientlibs/danklco-com/css'));
 	 return mergedStream;
