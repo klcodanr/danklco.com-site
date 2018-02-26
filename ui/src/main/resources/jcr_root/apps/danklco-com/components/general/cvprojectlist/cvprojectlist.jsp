@@ -39,7 +39,7 @@
 	Tools Used:
 	<ul class="list-inline">
 		<c:forEach var="tool" items="${properties.tools}">
-			<li>
+			<li class="list-inline-item">
 				<c:set var="toolProperties" value="${sling:getResource(resourceResolver,tool).valueMap}" />
 				<sling:encode value="${toolProperties['jcr:title']}" mode="HTML" />
 			</li>
