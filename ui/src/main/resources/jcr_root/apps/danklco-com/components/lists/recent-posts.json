@@ -1,0 +1,5 @@
+{
+	"jcr:primaryType": "sling:Component",
+    "sling:resourceSuperType": "reference/components/general/list",
+    "jcr:title": "Recent Posts"
+}

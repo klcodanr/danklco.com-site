@@ -7,13 +7,13 @@ jQuery(function ($) {
 		/* Contact form validation */
 		$('input,textarea,select').bind('invalid', function (evt) {
 			$(evt.target).parent().addClass('has-error');
-			$(evt.target).parent().find('.help-block').show().removeClass('hidden');
+			$(evt.target).parent().find('.text-danger').show().removeClass('d-none');
 			return false;
 		});
 		var validateField = function (event) {
 			if (event.target.checkValidity()) {
 				$(event.target).parent().removeClass('has-error');
-				$(event.target).parent().find('.help-block').hide();
+				$(event.target).parent().find('.text-danger').hide();
 			}
 		};
 		$('input,textarea,select').blur(validateField).keyup(validateField);
@@ -39,7 +39,7 @@ jQuery(function ($) {
 			var $client = $(this);
 			var id = $client.attr('id');
 			_gaq.push(['_trackEvent', 'Client', 'Open', id]);
-			$('#client-box img').attr('src', $client.attr('data-image')).attr('width', $client.attr('data-image-width'));
+			$('#client-box img').attr('src', $client.data('image')).attr('width', $client.attr('data-image-width'));
 			var url = $client.data('url') + ' .engagement-body';
 			$('.modal-title').html($client.data('title'));
 			$('#client-box .client-content').load(url, function () {
@@ -51,100 +51,23 @@ jQuery(function ($) {
 		/* handle pin clicks */
 		var pinClick = function (evt) {
 			if (evt.target.tagName !== 'A') {
-				var $pin = $(this);
-				if ($pin.attr('data-url')) {
-					_gaq.push(['_trackEvent', 'Pin', 'Click', $(this).attr('href')]);
-					if ($pin.attr('data-url').indexOf('http') !== -1) {
-						_gaq.push(['_trackEvent', 'Outbound Link', 'Click', $(this).attr('href')]);
-						window.open($pin.attr('data-url'), '_blank');
+				var url = $(this).data('url');
+				if(!url){
+					url = $(this).find('a').first().attr('href');
+				}
+				if (url) {
+					_gaq.push(['_trackEvent', 'Pin', 'Click', url]);
+					if ($pin.attr('href').indexOf('http') !== -1) {
+						_gaq.push(['_trackEvent', 'Outbound Link', 'Click', url]);
+						window.open(url, '_blank');
 					} else {
-						window.location = $pin.attr('data-url');
+						window.location = url;
 					}
 					return false;
 				}
 			}
 		};
 		$('.recent-activity .pin').click(pinClick);
-
-		/* Home page article paging */
-		var totalPages = $('.articles-wrapper').attr('data-total-pages');
-		var currentPage = 1;
-		$('.loader').hide();
-		var loadNext = function () {
-			var dfd = jQuery.Deferred();
-			var $btn = $('.next-page');
-			var $ldr = $btn.siblings('.loader');
-			window.location.hash = '#!' + $btn.attr('href');
-			$btn.hide();
-			$ldr.show();
-			var link = $btn.attr('href');
-			if (currentPage < totalPages) {
-				currentPage++;
-				$btn.attr('href', '/page' + (currentPage + 1));
-			} else {
-				$btn.attr('disabled', 'disabled');
-			}
-			$("<div>").load(link + " .articles-wrapper", function () {
-				$(".recent-activity").append($(this).html());
-				$('#' + $(this).find('section.articles-wrapper').attr('id')).find('.pin').click(pinClick);
-				$btn.show();
-				$ldr.hide();
-				window.scrollBy(0, window.innerHeight);
-				dfd.resolve();
-			});
-			return dfd.promise();
-		};
-		$('.next-page').click(function () {
-			loadNext();
-			return false;
-		});
-		if (window.location.pathname === '/' && window.location.hash.match(/#!\/page\d+\/?/)) {
-			var page = parseInt(window.location.hash.match(/\d+\/?$/)[0], 10);
-			var loadPages = function () {
-				if (page > 1) {
-					loadNext().done(function () {
-						page--;
-						loadPages();
-					});
-				} else {
-					window.scrollTo(0, 2147483647);
-				}
-			};
-			loadPages();
-		}
-
-		/* Load the related articles */
-		var tags = [];
-		var $rel = $('#relatedPosts ul');
-		$rel.each(function () {
-			if (tags.length === 0) {
-				$('.tags a').each(function (idx, tag) {
-					tags.push($.trim($(tag).text()));
-				});
-			}
-			$.getJSON('/posts.json', function (posts) {
-				var related = 0;
-				$.each(posts, function (idx, post) {
-					var matches = 0;
-					$.each(post.tags, function (idx, tag) {
-						if (tags.indexOf(tag) !== -1) {
-							matches++;
-						}
-					});
-					post.matches = matches;
-				});
-				posts.sort(function (pa, pb) {
-					return pb.matches - pa.matches;
-				});
-				$rel.html('');
-				$.each(posts, function (idx, post) {
-					if (related < 5 && location.pathname !== post.url) {
-						$rel.append(post.post);
-						related++;
-					}
-				});
-			});
-		});
 
 		/* support filtering of my work */
 		var filterWork = function () {

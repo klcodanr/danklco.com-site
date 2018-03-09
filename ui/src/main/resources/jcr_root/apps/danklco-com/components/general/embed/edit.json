@@ -1,0 +1,38 @@
+ {
+	"jcr:primaryType": "nt:unstructured",
+	"sling:resourceType": "sling-cms/components/editor/slingform",
+	"button": "Save Embed",
+	"fields": {
+		"jcr:primaryType": "nt:unstructured",
+		"sling:resourceType": "sling-cms/components/general/container",
+		"media": {
+			"jcr:primaryType": "nt:unstructured",
+			"sling:resourceType": "sling-cms/components/editor/fields/path",
+			"basePath": "/content",
+			"type": "sling:File",
+			"label": "Media",
+			"name": "media",
+			"titleProperty": "jcr:content/jcr:title"
+		},
+		"mediaType": {
+			"jcr:primaryType": "nt:unstructured",
+			"sling:resourceType": "sling-cms/components/editor/fields/select",
+			"label": "Media Type",
+			"name": "mediaType",
+			"options": {
+				"audio": {
+					"label": "Audio",
+					"value": "audio"
+				},
+				"pdf": {
+					"label": "PDF",
+					"value": "pdf"
+				},
+				"video": {
+					"label": "Video",
+					"value": "embed"
+				}
+			}
+		}
+	}
+}

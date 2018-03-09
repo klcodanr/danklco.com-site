@@ -1,0 +1,6 @@
+{
+    "jcr:primaryType" : "sling:Component",
+    "jcr:title": "DanKlco.com - Blog Post",
+    "sling:resourceSuperType": "danklco-com/components/pages/base",
+    "componentType": "Page"
+}

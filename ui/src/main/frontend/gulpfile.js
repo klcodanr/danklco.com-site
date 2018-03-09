@@ -35,8 +35,7 @@ var vendorJSStream = gulp.src([
 
 var jsStream = gulp.src([
 		'./src/js/scripts.js'
-	])
-	.pipe(uglify());
+	]);
 
 gulp.task('js', function() {
 	var mergedStream = merge(jsStream, vendorJSStream)

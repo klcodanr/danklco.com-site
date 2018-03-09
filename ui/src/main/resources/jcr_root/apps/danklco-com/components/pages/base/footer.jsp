@@ -8,8 +8,6 @@
 		<div class="input-group">
 			<label for="q" aria-label="q" class="sr-only">Search</label>
 			<input class="form-control" name="q" id="q" type="text" placeholder="Search..."/>
-			<input type="hidden" name="cx" value="partner-pub-8373938900915400:2634575702" />
-			<input type="hidden" name="cof" value="FORID:10" />
 			<div class="input-group-append">
 				<button class="btn btn-inverse" type="submit">
 					<span class="fa fa-search"></span>

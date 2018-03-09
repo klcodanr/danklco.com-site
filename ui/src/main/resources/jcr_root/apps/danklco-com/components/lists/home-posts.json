@@ -1,0 +1,6 @@
+{
+	"jcr:primaryType": "sling:Component",
+    "componentType": "DanKlco.com",
+    "sling:resourceSuperType": "reference/components/general/list",
+    "jcr:title": "Home Posts"
+}

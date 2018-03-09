@@ -7,8 +7,6 @@
 		<div class="collapse navbar-collapse" id="main-nav">
 			<ul class="nav navbar-nav mr-auto">
 				
-					<li class="active nav-item"><a class="nav-link" href="/content/danklco-com/">Home</a></li>
-				
 				
 					<li class="nav-item"><a class="nav-link" href="/content/danklco-com/my-work.html">My Work</a></li>
 				

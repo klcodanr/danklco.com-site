@@ -1,0 +1,6 @@
+{
+    "jcr:primaryType" : "sling:Component",
+    "jcr:title": "CV Project List",
+    "sling:resourceSuperType": "reference/components/general/list",
+    "componentType": "DanKlco.com"
+}

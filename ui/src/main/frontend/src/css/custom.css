@@ -42,7 +42,7 @@ blockquote footer {
 	font-weight: 500;
 	line-height: 1.1;
 }
-bootstrap.min.css:5 h1 {
+h1 {
 	margin: .67em 0;
 }
 .transparent-block-inverse .btn-default {
@@ -68,8 +68,6 @@ bootstrap.min.css:5 h1 {
 @media (min-width: 767px) {
 	.footer-search {
 		display: inline;
-		float: right;
-		margin-top: -10px;
 	}
 }
 .footer-search .input-group {
@@ -186,7 +184,7 @@ img.certification {
  */
 
 .icon {
-	background-image: url('/images/icon-sprites2.png');
+	background-image: url('/etc/clientlibs/danklco-com/img/icon-sprites2.png');
 	width: 48px;
 	height: 48px;
 	display: inline-block;
