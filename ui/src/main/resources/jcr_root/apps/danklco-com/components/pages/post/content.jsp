@@ -5,7 +5,6 @@
 			<article class="post" typeof="BlogPosting">
 				<header class="row">
 					<div class="col-md-12">
-					
 					<c:choose>
 						<c:when test="${not empty properties['sling:thumbnail']}">
 							<c:set var="image" value="${fn:replace(properties['sling:thumbnail'],'/content/danklco-com','')}" />

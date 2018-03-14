@@ -15,7 +15,7 @@
 	<c:when test="${properties.mediaType == 'audio'}">
 		<br/><br/>
 		<audio controls="controls">
-				<source src="${properties.media}" type="audio/mpeg"/>
+			<source src="${properties.media}" type="audio/mpeg"/>
 		</audio>
 	</c:when>
 </c:choose>

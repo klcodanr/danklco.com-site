@@ -57,12 +57,7 @@ jQuery(function ($) {
 				}
 				if (url) {
 					_gaq.push(['_trackEvent', 'Pin', 'Click', url]);
-					if ($pin.attr('href').indexOf('http') !== -1) {
-						_gaq.push(['_trackEvent', 'Outbound Link', 'Click', url]);
-						window.open(url, '_blank');
-					} else {
-						window.location = url;
-					}
+					window.location = url;
 					return false;
 				}
 			}
