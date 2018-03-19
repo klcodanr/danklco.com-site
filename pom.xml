@@ -25,6 +25,7 @@
 		<sling.port>8080</sling.port>
 		<sling.username>admin</sling.username>
 		<sling.password>admin</sling.password>
+		<sling.protocol>http</sling.protocol>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
