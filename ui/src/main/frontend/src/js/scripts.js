@@ -39,6 +39,7 @@ jQuery(function ($) {
 			var $client = $(this);
 			var id = $client.attr('id');
 			_gaq.push(['_trackEvent', 'Client', 'Open', id]);
+			$('#client-box img').attr('src', $client.data('image'));
 			var url = $client.data('url') + ' .engagement-body';
 			$('.modal-title').html($client.data('title'));
 			$('#client-box .client-content').load(url, function () {
