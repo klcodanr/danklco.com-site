@@ -34,6 +34,10 @@ blockquote footer {
 	background-image: none;
 	box-shadow: none;
 }
+
+.cv-image {
+	max-height: 174px;
+}
 .header-lg {
 	font-size: 36px;
 	margin-top: 20px;
@@ -102,7 +106,7 @@ h2 {
 	margin-top: 10px;
 }
 .page-header {
-	background-image: url(https://images.unsplash.com/photo-1504857561629-9c9b39e991bb?auto=format&fit=crop&w=2252&q=80);
+	background-image: url(/etc/clientlibs/danklco-com/img/header.jpg);
 	background-size: cover;
 	height: 400px;
 	margin-bottom: 0;
@@ -169,7 +173,7 @@ img.certification {
 	background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
 	height: 300px;
 }
-@media (max-width: 767px) {
+@media (max-width: 1199px) {
 	.post-hero .cover {
 		padding: 0.5em;
 	}

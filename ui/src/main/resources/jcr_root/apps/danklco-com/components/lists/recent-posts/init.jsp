@@ -1,5 +1,5 @@
 <%@include file="/libs/sling-cms/global.jsp"%>
-<c:set var="query" value="SELECT * FROM [sling:Page] WHERE ISDESCENDANTNODE([/content/danklco-com/posts]) AND [jcr:content/publishDate] IS NOT NULL ORDER BY  [jcr:content/publishDate] DESC" scope="request" />
+<c:set var="query" value="SELECT * FROM [sling:Page] WHERE [jcr:content/published] = true AND [jcr:content/publishDate] IS NOT NULL AND ISDESCENDANTNODE([/content/danklco-com/posts]) ORDER BY [jcr:content/publishDate] DESC" scope="request" />
 <c:set var="limit" value="5" scope="request" />
 <c:set var="includePagination" value="false" scope="request" />
 
