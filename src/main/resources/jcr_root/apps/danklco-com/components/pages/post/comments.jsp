@@ -6,7 +6,7 @@
     <script type="text/javascript">
     /* CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE */
     var disqus_shortname = 'danklco';
-    var disqus_url = 'https://www.danklco.com${fn:replace(pageMgr.page.path,'/content/danklco-com','')}.html';
+    var disqus_url = 'https://www.danklco.com${fn:replace(pageMgr.page.path,'/content/personal-sites/danklco-com','')}.html';
     /* DON'T EDIT BELOW THIS LINE */
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

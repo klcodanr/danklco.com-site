@@ -1,7 +1,7 @@
 <%@include file="/libs/sling-cms/global.jsp"%>
 <c:if test="${not empty properties.clientName}">
 	<div class="project" data-client="${sling:encode(properties.clientName,'HTML_ATTR')}" data-project="${sling:encode(properties.projectName,'HTML_ATTR')}">
-		<a href="/content/danklco-com/my-work.html" class="btn btn-default btn-lg">
+		<a href="/content/personal-sites/danklco-com/my-work.html" class="btn btn-default btn-lg">
 			<em class="fa fa-chevron-left"></em> 
 			My Work
 		</a>
@@ -50,7 +50,7 @@
 						<c:forEach var="tool" items="${properties.tools}">
 							<li class="list-inline-item">
 								<c:set var="toolProperties" value="${sling:getResource(resourceResolver,tool).valueMap}" />
-								<a href="/content/danklco-com/tags.html${tool}" title="Search for ${sling:encode(toolProperties['jcr:title'],'HTML_ATTR')}">
+								<a href="/content/personal-sites/danklco-com/tags.html${tool}" title="Search for ${sling:encode(toolProperties['jcr:title'],'HTML_ATTR')}">
 									<sling:encode value="${toolProperties['jcr:title']}" mode="HTML" />
 								</a>
 							</li>

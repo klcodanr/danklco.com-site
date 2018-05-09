@@ -7,7 +7,7 @@
 					<div class="col-md-12">
 					<c:choose>
 						<c:when test="${not empty properties['sling:thumbnail']}">
-							<c:set var="image" value="${fn:replace(properties['sling:thumbnail'],'/content/danklco-com','')}" />
+							<c:set var="image" value="${fn:replace(properties['sling:thumbnail'],'/content/personal-sites/danklco-com','')}" />
 						</c:when>
 						<c:otherwise>
 							<c:set var="image" value="//placehold.it/300x300?text=${sling:encode(properties['jcr:title'],'HTML_ATTR')}" />

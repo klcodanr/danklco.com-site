@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-    <!--
+<!--
         Licensed to the Apache Software Foundation (ASF) under one or more contributor license
         agreements. See the NOTICE file distributed with this work for additional information
         regarding copyright ownership. The ASF licenses this file to you under the Apache License,
@@ -10,31 +10,132 @@
         either express or implied. See the License for the specific language governing permissions
         and limitations under the License.
     -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-    
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.danklco</groupId>
     <artifactId>com.danklco.site</artifactId>
     <name>DanKlco.com - Site</name>
-	<version>1.0.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>bundle</packaging>
 
-	<properties>
-		<sling.host>localhost</sling.host>
-		<sling.port>8080</sling.port>
-		<sling.username>admin</sling.username>
-		<sling.password>admin</sling.password>
-		<sling.protocol>http</sling.protocol>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-	</properties>
+    <properties>
+        <sling.host>localhost</sling.host>
+        <sling.port>8080</sling.port>
+        <sling.username>admin</sling.username>
+        <sling.password>admin</sling.password>
+        <sling.protocol>http</sling.protocol>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <frontend.target>target/frontend</frontend.target>
+    </properties>
 
-	<modules>
-		<module>core</module>
-		<module>ui</module>
-	</modules>
-	
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/${frontend.target}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/frontend</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.4</version>
+                <configuration>
+                    <installDirectory>${frontend.target}</installDirectory>
+                    <workingDirectory>${frontend.target}</workingDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install node and npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                        <configuration>
+                            <nodeVersion>v6.11.0</nodeVersion>
+                            <npmVersion>3.10.10</npmVersion>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>gulp build</id>
+                        <goals>
+                            <goal>gulp</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>3.5.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Sling-Initial-Content>
+                            jcr_root, jcr_root/apps/danklco-com;overwrite:=true;uninstall:=true;path:=/apps/danklco-com, jcr_root/etc/clientlibs/danklco-com;overwrite=true;ignoreImportProviders:=xml;path:=/etc/clientlibs/danklco-com
+                        </Sling-Initial-Content>
+                        <Include-Resource>{maven-resources},${basedir}/target/frontend/dist</Include-Resource>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <id>autoInstallBundle</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.sling</groupId>
+                        <artifactId>maven-sling-plugin</artifactId>
+                        <version>2.3.6</version>
+                        <executions>
+                            <execution>
+                                <id>install-bundle</id>
+                                <goals>
+                                    <goal>install</goal>
+                                </goals>
+                                <configuration>
+                                    <slingUrl>${sling.protocol}://${sling.host}:${sling.port}/system/console</slingUrl>
+                                    <user>${sling.username}</user>
+                                    <password>${sling.password}</password>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+
 </project>
