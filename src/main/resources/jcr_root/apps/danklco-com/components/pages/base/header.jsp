@@ -3,7 +3,7 @@
 	<div class="container">
 		<div class="content" typeof="Person">
 			<a href="/" title="Home">
-				<img src="/etc/clientlibs/danklco-com/img/me.jpg" property="image" alt="Picture of Dan Klco" width="100" height="100" class="pull-left img-responsive"  />
+				<img src="/static/clientlibs/danklco-com/img/me.jpg" property="image" alt="Picture of Dan Klco" width="100" height="100" class="pull-left img-responsive"  />
 			</a>
 			<c:choose>
 					<c:when test="${page.path == '/content/danklco-com/index'}">

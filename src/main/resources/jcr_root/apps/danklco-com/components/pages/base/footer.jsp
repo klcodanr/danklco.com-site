@@ -20,7 +20,7 @@
 	<hr/>
 	<br/>
 	<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/deed.en_US" target="_blank">
-		<img alt="Creative Commons License" width="88" height="31" src="/etc/clientlibs/danklco-com/img/cc-license.png" />
+		<img alt="Creative Commons License" width="88" height="31" src="/static/clientlibs/danklco-com/img/cc-license.png" />
 	</a>
 	<div class="float-right" itemscope itemtype="http://schema.org/Person">
 		<link itemprop="url" href="https://www.danklco.com" />

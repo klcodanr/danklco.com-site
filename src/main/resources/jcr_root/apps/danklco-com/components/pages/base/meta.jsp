@@ -10,8 +10,8 @@
 <meta property="og:title" content="${properties['jcr:title']} | Dan Klco - Adobe Digital Marketing Architect"/>
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="${properties['jcr:title']} | Dan Klco - Adobe Digital Marketing Architect" />
-<meta property="og:image" content="/etc/designs/danklco-com/img/me.jpg"/>
-<meta name="twitter:image" content="/etc/designs/danklco-com/img/me.jpg"/>
+<meta property="og:image" content="/static/clientlibs/danklco-com/img/me.jpg"/>
+<meta name="twitter:image" content="/static/clientlibs/danklco-com/img/me.jpg"/>
 <meta property="og:url" content="https://www.danklco.com${page.publishedPath}"/>
 <link rel="canonical" href="https://www.danklco.com${page.publishedPath}" />
 <meta name="twitter:url" content="https://www.danklco.com${page.publishedPath}" />

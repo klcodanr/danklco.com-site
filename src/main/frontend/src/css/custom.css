@@ -106,7 +106,7 @@ h2 {
 	margin-top: 10px;
 }
 .page-header {
-	background-image: url(/etc/clientlibs/danklco-com/img/header.jpg);
+	background-image: url(/static/clientlibs/danklco-com/img/header.jpg);
 	background-size: cover;
 	height: 400px;
 	margin-bottom: 0;
@@ -188,7 +188,7 @@ img.certification {
  */
 
 .icon {
-	background-image: url('/etc/clientlibs/danklco-com/img/icon-sprites2.png');
+	background-image: url('/static/clientlibs/danklco-com/img/icon-sprites2.png');
 	width: 48px;
 	height: 48px;
 	display: inline-block;

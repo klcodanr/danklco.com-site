@@ -26,9 +26,9 @@ gulp.task('styles', function() {
 		], { base: './' }))
      	.pipe(concat('styles.min.css'))
 		.pipe(rev())
+        .pipe(gulp.dest('./dist/jcr_root/static/clientlibs/danklco-com/css'))
         .pipe(rev.manifest())
-        .pipe(gulp.dest('./dist/jcr_root/static/clientlibs/danklco-com/css'));
-	 return mergedStream;
+        .pipe(gulp.dest('./dist/css'));
 });
 
 var vendorJSStream = gulp.src([
@@ -41,8 +41,8 @@ var jsStream = gulp.src([
 
 gulp.task("revreplace", function(){
   var manifest = gulp.src([
-      "./dist/jcr_root/static/clientlibs/danklco-com/css/rev-manifest.json",
-      "./dist/jcr_root/static/clientlibs/danklco-com/js/rev-manifest.json"
+      "./dist/css/rev-manifest.json",
+      "./dist/js/rev-manifest.json"
   ]);
  
   return gulp.src("./src/fed.jsp")
@@ -62,8 +62,9 @@ gulp.task('js', function() {
 		], { base: './' }))
 		.pipe(concat('scripts.min.js'))
 		.pipe(rev())
+		.pipe(gulp.dest('./dist/jcr_root/static/clientlibs/danklco-com/js'))
         .pipe(rev.manifest())
-		.pipe(gulp.dest('./dist/jcr_root/static/clientlibs/danklco-com/js'));
+		.pipe(gulp.dest('./dist/js'));
 });
 
 gulp.task('assets', function() {

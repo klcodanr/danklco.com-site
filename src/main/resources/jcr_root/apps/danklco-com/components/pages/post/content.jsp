@@ -27,7 +27,7 @@
 											<fmt:formatDate value="${publishDate}" pattern="MMM d, yyyy" /> 
 										</span>
 									</time>
-									by <span class="d-none" property="publisher" typeOf="Organization"><span property="name">Dan Klco</span><img property="logo" src="/etc/clientlibs/danklco-com/img/me.jpg" alt="Picture of Me" /></span>
+									by <span class="d-none" property="publisher" typeOf="Organization"><span property="name">Dan Klco</span><img property="logo" src="/static/clientlibs/danklco-com/img/me.jpg" alt="Picture of Me" /></span>
 									<span class="author" property="author" typeOf="Person"><span property="name">Dan Klco</span></span>
 								</em>
 							</div>
