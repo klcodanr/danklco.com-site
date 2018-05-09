@@ -57,7 +57,7 @@
 				<span><em class="fa fa-tags"></em>
 					<c:forEach var="tag" items="${item.valueMap['jcr:content/sling:taxonomy']}" end="2" varStatus="status">
 						<c:set var="tagProperties" value="${sling:getResource(resourceResolver,tag).valueMap}" />
-						<a href="/content/danklco-com/tags.html${tag}"><sling:encode value="${tagProperties['jcr:title']}" mode="HTML" /></a><c:if test="${not status.last}">,</c:if>&nbsp;
+						<a href="/content/personal-sites/danklco-com/tags.html${tag}"><sling:encode value="${tagProperties['jcr:title']}" mode="HTML" /></a><c:if test="${not status.last}">,</c:if>&nbsp;
 					</c:forEach>
 				</span>
 			</small>

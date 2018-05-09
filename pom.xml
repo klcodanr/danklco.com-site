@@ -101,7 +101,8 @@
                 <configuration>
                     <instructions>
                         <Sling-Initial-Content>
-                            jcr_root, jcr_root/apps/danklco-com;overwrite:=true;uninstall:=true;path:=/apps/danklco-com, jcr_root/etc/clientlibs/danklco-com;overwrite=true;ignoreImportProviders:=xml;path:=/etc/clientlibs/danklco-com
+                            jcr_root, jcr_root/apps/danklco-com;overwrite:=true;uninstall:=true;path:=/apps/danklco-com,
+                            jcr_root/static/clientlibs/danklco-com;overwrite=true;ignoreImportProviders:=xml;path:=/static/clientlibs/danklco-com
                         </Sling-Initial-Content>
                         <Include-Resource>{maven-resources},${basedir}/target/frontend/dist</Include-Resource>
                     </instructions>

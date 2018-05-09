@@ -1,5 +1,5 @@
 <%@include file="/apps/danklco-com/global.jsp"%>
-<script src="/etc/clientlibs/danklco-com/js/scripts.min.js"></script>
+<script src="${sitescript}"></script>
 <script type="text/javascript">
 _linkedin_data_partner_id = "174596";
 </script><script type="text/javascript">

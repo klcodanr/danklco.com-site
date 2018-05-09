@@ -1,5 +1,4 @@
-
-const gulp        = require('gulp');
+const gulp = require('gulp');
 const cleanCSS   = require('gulp-clean-css');
 var concatCss = require('gulp-concat-css');
 var concat = require('gulp-concat');
@@ -7,7 +6,8 @@ var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var merge = require('merge-stream');
 var order = require("gulp-order");
-
+const rev = require('gulp-rev');
+var revReplace = require("gulp-rev-replace");
 
 var cssStream = gulp.src('./src/css/*.css')
     .pipe(cleanCSS());
@@ -25,7 +25,9 @@ gulp.task('styles', function() {
 			'src/css/*.css',
 		], { base: './' }))
      	.pipe(concat('styles.min.css'))
-        .pipe(gulp.dest('./dist/jcr_root/etc/clientlibs/danklco-com/css'));
+		.pipe(rev())
+        .pipe(rev.manifest())
+        .pipe(gulp.dest('./dist/jcr_root/static/clientlibs/danklco-com/css'));
 	 return mergedStream;
 });
 
@@ -37,6 +39,20 @@ var jsStream = gulp.src([
 		'./src/js/scripts.js'
 	]);
 
+gulp.task("revreplace", function(){
+  var manifest = gulp.src([
+      "./dist/jcr_root/static/clientlibs/danklco-com/css/rev-manifest.json",
+      "./dist/jcr_root/static/clientlibs/danklco-com/js/rev-manifest.json"
+  ]);
+ 
+  return gulp.src("./src/fed.jsp")
+    .pipe(revReplace({
+      manifest: manifest,
+      replaceInExtensions:['.jsp']
+    }))
+    .pipe(gulp.dest('./dist/jcr_root/apps/danklco-com/components/pages/base'));
+});
+
 gulp.task('js', function() {
 	var mergedStream = merge(jsStream, vendorJSStream)
 		.pipe(order([
@@ -45,18 +61,20 @@ gulp.task('js', function() {
 			'src/js/*.js',
 		], { base: './' }))
 		.pipe(concat('scripts.min.js'))
-		.pipe(gulp.dest('./dist/jcr_root/etc/clientlibs/danklco-com/js'));
+		.pipe(rev())
+        .pipe(rev.manifest())
+		.pipe(gulp.dest('./dist/jcr_root/static/clientlibs/danklco-com/js'));
 });
 
 gulp.task('assets', function() {
 	gulp.src([
 		'./src/{fonts,img}/**/*'
-	]).pipe(gulp.dest('./dist/jcr_root/etc/clientlibs/danklco-com'));
+	]).pipe(gulp.dest('./dist/jcr_root/static/clientlibs/danklco-com'));
 
 	gulp.src([
 		'./node_modules/font-awesome/fonts/*.*'
-	]).pipe(gulp.dest('./dist/jcr_root/etc/clientlibs/danklco-com/fonts'));
+	]).pipe(gulp.dest('./dist/jcr_root/static/clientlibs/danklco-com/fonts'));
 });
 
 
-gulp.task('default', ['styles', 'js', 'assets'], function() {});
+gulp.task('default', ['styles', 'js', 'assets','revreplace'], function() {});

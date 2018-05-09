@@ -19,6 +19,7 @@
  <%@include file="/libs/sling-cms/global.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
+    <sling:call script="fed.jsp" />
 	<sling:call script="head.jsp" />
 	<sling:call script="body.jsp" />
 </html>

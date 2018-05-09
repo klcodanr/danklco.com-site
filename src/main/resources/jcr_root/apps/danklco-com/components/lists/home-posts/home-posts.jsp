@@ -1,4 +1,4 @@
- <%@include file="/libs/sling-cms/global.jsp"%>
+<%@include file="/libs/sling-cms/global.jsp"%>
 <sling:call script="init.jsp" />
 <c:if test="${list != null}">
 	<${tag} class="list ${clazz}">

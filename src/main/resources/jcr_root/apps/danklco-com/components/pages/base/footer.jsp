@@ -4,7 +4,7 @@
 	<jsp:useBean id="date" class="java.util.Date" />
 	<fmt:formatDate value="${date}" pattern="yyyy" var="currentYear" />
 	Copyright &copy; 2009 - <c:out value="${currentYear}" /> &mdash; Dan Klco
-	<form class="form-inline float-right" action="/content/danklco-com/search.html" method="get" title="Site Search">
+	<form class="form-inline float-right" action="/content/personal-sites/danklco-com/search.html" method="get" title="Site Search">
 		<div class="input-group">
 			<label for="q" aria-label="q" class="sr-only">Search</label>
 			<input class="form-control" name="q" id="q" type="text" placeholder="Search..."/>
@@ -25,14 +25,6 @@
 	<div class="float-right" itemscope itemtype="http://schema.org/Person">
 		<link itemprop="url" href="https://www.danklco.com" />
 		<ul class="nav">
-			
-			<li class="nav-item">
-				<span class="nav-link p-1">
-					<a itemprop="sameAs" href="http://www.linkedin.com/in/danielklco/" target="_blank" rel="noopener" title="Find me on LinkedIn!" class="btn btn-default ">
-						<em class="fa fa-linkedin" aria-hidden="true"></em><span class="sr-only">Find me on LinkedIn</span>
-					</a>
-				</span>
-			</li>
 			<li class="nav-item">
 				<span class="nav-link p-1">
 					<a itemprop="sameAs" href="http://www.linkedin.com/in/danielklco/" target="_blank" rel="noopener" title="Find me on LinkedIn!" class="btn btn-default">
