@@ -8,8 +8,9 @@
 <script>
     dataLayer = [{
         "keywords": [${keywords}],
+        "name": "${page.resource.name}",
         "path": "${page.path}",
-        "sitePath": "${fn:replace(page.path,'/content/personal-sites/danklco-com','')}"
+        "sitePath": "${fn:replace(page.path,'/content/personal-sites/danklco-com','')}",
         "type": "${type}"
         
     }];
