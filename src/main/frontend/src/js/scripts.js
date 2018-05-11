@@ -85,4 +85,9 @@ jQuery(function ($) {
 			filterWork();
 		});
 	});
+    if (navigator.userAgent.indexOf("Speed Insights") === -1) {
+        $('body').append($("<script />", {
+            src: 'https://platform.twitter.com/widgets.js'
+        }));
+    }
 });
