@@ -6,7 +6,7 @@
 				<img src="/static/clientlibs/danklco-com/img/me.jpg" property="image" alt="Picture of Dan Klco" width="100" height="100" class="pull-left img-responsive"  />
 			</a>
 			<c:choose>
-					<c:when test="${page.path == '/content/danklco-com/index'}">
+					<c:when test="${page.path == '/content/personal-sites/danklco-com/index'}">
 					<h1 property="name">
 						Daniel Klco
 					</h1>

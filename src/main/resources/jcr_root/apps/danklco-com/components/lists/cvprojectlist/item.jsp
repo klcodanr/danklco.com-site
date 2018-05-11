@@ -1,7 +1,7 @@
 <%@include file="/libs/sling-cms/global.jsp"%>
 <sling:adaptTo var="pageMgr" adaptable="${item}" adaptTo="org.apache.sling.cms.core.models.PageManager" />
 <article class="project client" data-title="${sling:encode(item.valueMap.clientName,'HTML_ATTR')} - ${sling:encode(item.valueMap.projectName,'HTML_ATTR')}"
-	data-image="${fn:replace(item.valueMap.image,'/content/danklco-com','')}"
+	data-image="${fn:replace(item.valueMap.image,'/content/personal-sites/danklco-com','')}"
 	data-url="${pageMgr.page.publishedPath}.html" data-client="${sling:encode(item.valueMap.clientName,'HTML_ATTR')}"
 	data-project="${sling:encode(item.valueMap.projectName,'HTML_ATTR')}">
 	<header>

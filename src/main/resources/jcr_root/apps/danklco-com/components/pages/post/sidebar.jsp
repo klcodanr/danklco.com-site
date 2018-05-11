@@ -1,5 +1,5 @@
 <%@include file="/libs/sling-cms/global.jsp"%>
-<a class="btn btn-inverse btn-lg" href="/content/danklco-com/feed.xml" rel="alternate" type="application/rss+xml" >
+<a class="btn btn-inverse btn-lg" href="/content/personal-sites/danklco-com/feed.xml" rel="alternate" type="application/rss+xml" >
 	<em class="fa fa-rss"></em> Follow My Blog Posts
 </a>
 <hr/>

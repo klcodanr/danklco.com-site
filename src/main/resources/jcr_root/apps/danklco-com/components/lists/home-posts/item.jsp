@@ -5,7 +5,7 @@
 	<div class="pin">
 		<c:choose>
 			<c:when test="${not empty item.valueMap['jcr:content/sling:thumbnail']}">
-				<c:set var="image" value="${fn:replace(item.valueMap['jcr:content/sling:thumbnail'],'/content/danklco-com','')}" />
+				<c:set var="image" value="${fn:replace(item.valueMap['jcr:content/sling:thumbnail'],'/content/personal-sites/danklco-com','')}" />
 			</c:when>
 			<c:otherwise>
 				<c:set var="image" value="//placehold.it/300x300?text=${sling:encode(item.valueMap['jcr:content/jcr:title'],'HTML_ATTR')}" />

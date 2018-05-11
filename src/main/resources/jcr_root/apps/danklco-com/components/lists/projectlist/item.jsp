@@ -4,10 +4,10 @@
 	<div class="pin client" id="${sling:encode(item.valueMap.clientName,'HTML_ATTR')}"
 		data-title="${sling:encode(item.valueMap.clientName,'HTML_ATTR')} - ${sling:encode(item.valueMap.projectName,'HTML_ATTR')}"
 		title="Find out more about my work at ${sling:encode(item.valueMap.clientName,'HTML_ATTR')}"
-		data-image="${fn:replace(item.valueMap.image,'/content/danklco-com','')}"
-		data-url="${pageMgr.page.publishedPath}.html">
+		data-image="${fn:replace(item.valueMap.image,'/content/personal-sites/danklco-com','')}"
+		data-url="${pageMgr.page.publishedPath}">
 		<div class="img"
-			style="background-image: url('${fn:replace(item.valueMap.image,'/content/danklco-com','')}')">
+			style="background-image: url('${fn:replace(item.valueMap.image,'/content/personal-sites/danklco-com','')}')">
 			<div class="hover-show">
 				<h3>
 					<a href="${pageMgr.page.path}.html" title="${sling:encode(item.valueMap.clientName,'HTML_ATTR')} - ${sling:encode(item.valueMap.projectName,'HTML_ATTR')}">

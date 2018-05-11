@@ -67,8 +67,18 @@ jQuery(function ($) {
 
 			return false;
 		};
-		$('form.work-filter').submit(filterWork);
-		$('input[name=work-filter]').change(filterWork);
+		$('form.work-filter').submit(function(){
+            window.dataLayer.push({
+                'event': 'workfilter'
+            });
+            filterWork();
+        });
+		$('input[name=work-filter]').change(function(){
+            window.dataLayer.push({
+                'event': 'workfilter'
+            });
+            filterWork();
+        });
 		$('input[name=work-filter]').keyup(filterWork);
 		$('.work-filter-clear').click(function () {
 			$('input[name=work-filter]').val('');
