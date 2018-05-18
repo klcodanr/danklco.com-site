@@ -8,7 +8,7 @@
 			</div>
 			<div class="modal-body">
 				<img src="/static/clientlibs/danklco-com/img/loading.gif" class="mx-auto d-block img-fluid" alt="client" />
-				<div class="client-content">
+				<div class="client-content mt-4">
 				</div>
 			</div>
 		</div>
