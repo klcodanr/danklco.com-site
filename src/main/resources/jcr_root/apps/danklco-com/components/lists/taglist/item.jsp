@@ -10,7 +10,7 @@
 			<sling:encode value="${item.valueMap['jcr:content/jcr:description']}" mode="HTML" />
 		</p>
 		<a href="${item.path}.html" class="card-link">
-			${fn:replace(item.path,sling:getAbsoluteParent(item,2).path,'')}.html
+			${fn:replace(item.path,sling:getAbsoluteParent(item,3).path,'')}.html
 		</a>
 	</div>
 </div>

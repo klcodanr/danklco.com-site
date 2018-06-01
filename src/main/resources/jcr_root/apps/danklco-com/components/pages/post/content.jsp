@@ -40,13 +40,17 @@
 				<hr class="large" />
 				<c:choose>
 					<c:when test="${empty properties.original || fn:indexOf(properties.original,'labs.6dglobal.com') != -1 || fn:indexOf(properties.original,'labs.sixdimensions.com') != -1}">
-						<sling:include path="container" resourceType="sling-cms/components/general/container" />
+                        <div class="post-body">
+				            <sling:include path="container" resourceType="sling-cms/components/general/container" />
+                        </div>
 						<sling:call script="tags.jsp" />
 						<sling:call script="comments.jsp" />
 					</c:when>
 					<c:otherwise>
                         <blockquote>
-                            ${properties.snippet}
+                            <div class="post-summary">
+                                ${properties.snippet}
+                            </div>
                             <footer>
                                 <a href="${properties.original}" target="_blank" rel="noopener">
                                 	Read the full post &quot;<sling:encode value="${properties['jcr:title']}" mode="HTML" />&quot; on ${fn:split(fn:replace(fn:replace(properties.original,'https://',''),'http://',''),'/')[0]}</a>
