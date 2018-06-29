@@ -19,7 +19,7 @@
 			</c:choose>
 			<p property="description">
 				<span class="fa fa-globe"><span class="sr-only">I'm based out of</span></span>&nbsp;&nbsp;<span property="homeLocation">Cincinnati, OH</span><br/>
-				<span class="fa fa-briefcase"><span class="sr-only">I work as the</span></span>&nbsp;&nbsp;<span property="jobTitle">Adobe Digital Marketing Solution Lead</span> at <a href="http://www.perficient.com" property="worksFor" title="My Employer" typeof="Organization">Perficient</a>
+				<span class="fa fa-briefcase"><span class="sr-only">I work as the</span></span>&nbsp;&nbsp;<span property="jobTitle">Adobe Digital Marketing Technical Director</span> at <a href="http://www.perficient.com" property="worksFor" title="My Employer" typeof="Organization">Perficient</a>
 			</p>
 		</div>
 	</div>
