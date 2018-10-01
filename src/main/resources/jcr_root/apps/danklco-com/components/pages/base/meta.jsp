@@ -1,5 +1,5 @@
 <%@include file="/apps/danklco-com/global.jsp"%>
-<c:set var="page" value="${sling:adaptTo(resource,'org.apache.sling.cms.core.models.PageManager').page}" />
+<c:set var="page" value="${sling:adaptTo(resource,'org.apache.sling.cms.PageManager').page}" />
 <title><sling:encode value="${properties['jcr:title']}" mode="HTML" /> | Dan Klco - Adobe Digital Marketing Architect</title>
 <meta content="${fn:join(page.keywords,',')}" name="keywords" />
 <meta content="${sling:encode(properties['jcr:description'],'HTML_ATTR')}" name="description" />

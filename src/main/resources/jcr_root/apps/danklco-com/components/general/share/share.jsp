@@ -1,5 +1,5 @@
 <%@include file="/libs/sling-cms/global.jsp"%>
-<c:set var="page" value="${sling:adaptTo(resource,'org.apache.sling.cms.core.models.PageManager').page}" />
+<c:set var="page" value="${sling:adaptTo(resource,'org.apache.sling.cms.PageManager').page}" />
 <span class="social-share share">
 	Share this:
 	<c:url var="twitter" value="https://twitter.com/intent/tweet">

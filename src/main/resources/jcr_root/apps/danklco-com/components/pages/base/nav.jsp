@@ -1,5 +1,5 @@
 <%@include file="/apps/danklco-com/global.jsp"%>
-<sling:adaptTo var="pageMgr" adaptable="${resource}" adaptTo="org.apache.sling.cms.core.models.PageManager" />
+<sling:adaptTo var="pageMgr" adaptable="${resource}" adaptTo="org.apache.sling.cms.PageManager" />
 <c:set var="page" value="${pageMgr.page}" />
 <nav class="navbar navbar-expand-md navbar-dark fixed-top background__dark">
 	<div class="container">

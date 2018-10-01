@@ -1,5 +1,5 @@
 <%@include file="/libs/sling-cms/global.jsp"%>
-<c:set var="site" value="${sling:adaptTo(item,'org.apache.sling.cms.core.models.SiteManager').site}" />
+<c:set var="site" value="${sling:adaptTo(item,'org.apache.sling.cms.SiteManager').site}" />
 <fmt:parseDate value="${item.valueMap['jcr:content/publishDate']}" var="publishDate" pattern="yyyy-MM-dd" />
 <article class="col-lg-4"> 
 	<div class="pin">

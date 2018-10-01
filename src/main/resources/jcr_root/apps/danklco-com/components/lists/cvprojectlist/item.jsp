@@ -1,5 +1,5 @@
 <%@include file="/libs/sling-cms/global.jsp"%>
-<sling:adaptTo var="pageMgr" adaptable="${item}" adaptTo="org.apache.sling.cms.core.models.PageManager" />
+<sling:adaptTo var="pageMgr" adaptable="${item}" adaptTo="org.apache.sling.cms.PageManager" />
 <article class="project client" data-title="${sling:encode(item.valueMap.clientName,'HTML_ATTR')} - ${sling:encode(item.valueMap.projectName,'HTML_ATTR')}"
 	data-image="${item.valueMap.image}"
 	data-url="${pageMgr.page.path}.html" data-client="${sling:encode(item.valueMap.clientName,'HTML_ATTR')}"
