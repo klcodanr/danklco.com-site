@@ -1,3 +1,3 @@
 <h3>Recent Tweets</h3>
-<a class="twitter-timeline" data-dnt="true" href="https://twitter.com/KlcoDanR/with_replies" data-theme="light" data-link-color="#333" data-widget-id="324965818536427521" data-tweet-limit="5" data-chrome="noheader nofooter noborders transparent noscrollbar">Tweets by @KlcoDanR</a>
-<a href="https://twitter.com/klcodanr" class="twitter-follow-button" data-show-count="false">Follow Me</a>
+<a class="twitter-timeline" href="https://twitter.com/KlcoDanR?ref_src=twsrc%5Etfw" data-tweet-limit="5">Tweets by KlcoDanR</a>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
