@@ -1,9 +1,62 @@
  {
 	"jcr:primaryType": "nt:unstructured",
 	"sling:resourceType": "sling-cms/components/editor/slingform",
-	"button": "No Need to Click this, but you don't follow rules, do you?",
+	"button": "Save Contact Form",
 	"fields": {
 		"jcr:primaryType": "nt:unstructured",
-		"sling:resourceType": "sling-cms/components/general/container"
+		"sling:resourceType": "sling-cms/components/general/container",
+		"redirect": {
+			"jcr:primaryType": "nt:unstructured",
+			"sling:resourceType": "sling-cms/components/editor/fields/path",
+			"basePath": "/content/personal-sites/danklco-com",
+			"type": "sling:Page",
+			"label": "Redirect Target",
+			"name": "redirect",
+			"titleProperty": "jcr:content/jcr:title",
+			"required": true
+		},
+		"recipient": {
+			"jcr:primaryType": "nt:unstructured",
+			"sling:resourceType": "sling-cms/components/editor/fields/text",
+			"label": "Email Recipient",
+			"name": "recipient",
+			"required": true,
+			"type": "email"
+		},
+		"idstamp": {
+			"jcr:primaryType": "nt:unstructured",
+			"sling:resourceType": "sling-cms/components/editor/fields/text",
+			"label": "Honeypot ID Stamp",
+			"name": "idstamp",
+			"required": true
+		},
+		"msgSubjectTpl": {
+			"jcr:primaryType": "nt:unstructured",
+			"sling:resourceType": "sling-cms/components/editor/fields/text",
+			"label": "Message Subject Template",
+			"name": "msgSubjectTpl",
+			"required": true
+		},
+		"msgTpl": {
+			"jcr:primaryType": "nt:unstructured",
+			"sling:resourceType": "sling-cms/components/editor/fields/textarea",
+			"label": "Message Template",
+			"name": "msgTpl",
+			"required": true
+		},
+		"confSubjectTpl": {
+			"jcr:primaryType": "nt:unstructured",
+			"sling:resourceType": "sling-cms/components/editor/fields/text",
+			"label": "Confirmation Subject Template",
+			"name": "confSubjectTpl",
+			"required": true
+		},
+		"confTpl": {
+			"jcr:primaryType": "nt:unstructured",
+			"sling:resourceType": "sling-cms/components/editor/fields/textarea",
+			"label": "Confirmation Template",
+			"name": "confTpl",
+			"required": true
+		}
 	}
 }

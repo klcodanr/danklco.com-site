@@ -1,4 +1,4 @@
-
+<%@include file="/libs/sling-cms/global.jsp" %>
 <hr/>
 <div class="social-networks text-center">
     <a target="_blank" rel="noopener" href="http://www.linkedin.com/in/danielklco/" title="InMail me on LinkedIn!" class="icon" id="Linkedin" data-network="LinkedIn"><span class="sr-only">Find me on LinkedIn</span></a>
@@ -9,7 +9,7 @@
 <div class="col-sm-8 offset-sm-2">
     <h3>Send your message directly to me!</h3>
     <br/><br/>
-    <form accept-charset="UTF-8" method="post" action="https://openwhisk.ng.bluemix.net/api/v1/web/dan.klco%40perficient.com_dev/klcodanr/web-email.http" id="contact-form" title="Contact Me">
+    <form accept-charset="UTF-8" method="post" action="${resource.path}.allowpost.html" id="contact-form" title="Contact Me">
         <div class="form-group">
             <label class="control-label" for="name">Your Name <span class="text-danger">*</span></label>
             <input name="name" id="name" class="form-control" type="text" maxlength="255" required="required" />
@@ -44,7 +44,7 @@
         <div class="d-none">
             <label for="comment">Do Not Fill This Out</label>
             <textarea name="comment" id="comment" rows="1" cols="1"></textarea>
-            <input type="hidden" id="idstamp" name="idstamp" value="HdQpXoverJMLTBVH26DSTHmtR2KA9TL1aX6Iec/0Cn8=">
+            <input type="hidden" id="idstamp" name="idstamp" value="${properties.idstamp}">
         </div>
     </form>
 </div>
