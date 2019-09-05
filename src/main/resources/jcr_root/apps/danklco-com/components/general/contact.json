@@ -1,5 +1,5 @@
 {
     "jcr:primaryType" : "sling:Component",
-    "jcr:title": "Contact Form",
+    "jcr:title": "Social Contacts",
     "componentType": "DanKlco.com"
 }
