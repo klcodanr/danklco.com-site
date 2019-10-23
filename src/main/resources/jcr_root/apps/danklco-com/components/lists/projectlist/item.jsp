@@ -1,6 +1,6 @@
 <%@include file="/libs/sling-cms/global.jsp"%>
 <sling:adaptTo var="pageMgr" adaptable="${item}" adaptTo="org.apache.sling.cms.PageManager" />
-<div class="col-md-4 col-sm-6">
+<div class="col-md-4 col-sm-6 work-item">
 	<div class="pin client" id="${sling:encode(item.valueMap.clientName,'HTML_ATTR')}"
 		data-title="${sling:encode(item.valueMap.clientName,'HTML_ATTR')} - ${sling:encode(item.valueMap.projectName,'HTML_ATTR')}"
 		title="Find out more about my work at ${sling:encode(item.valueMap.clientName,'HTML_ATTR')}"

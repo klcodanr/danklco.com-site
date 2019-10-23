@@ -1,22 +1,22 @@
  {
 	"jcr:primaryType": "nt:unstructured",
 	"sling:resourceType": "sling-cms/components/editor/slingform",
-	"button": "Save Filter",
+	"button": "Save HTL Complaint",
 	"fields": {
 		"jcr:primaryType": "nt:unstructured",
 		"sling:resourceType": "sling-cms/components/general/container",
-		"title": {
+		"reason": {
 			"jcr:primaryType": "nt:unstructured",
-			"sling:resourceType": "sling-cms/components/editor/fields/text",
-			"label": "Title",
-			"name": "title",
+			"sling:resourceType": "sling-cms/components/editor/fields/textarea",
+			"label": "Reason",
+			"name": "jcr:title",
 			"required": true
 		},
-		"target": {
+		"name": {
 			"jcr:primaryType": "nt:unstructured",
-			"sling:resourceType": "sling-cms/components/editor/fields/text",
-			"label": "Target",
-			"name": "target",
+			"sling:resourceType": "sling-cms/components/editor/fields/textfield",
+			"label": "Name",
+			"name": "name",
 			"required": true
 		}
 	}

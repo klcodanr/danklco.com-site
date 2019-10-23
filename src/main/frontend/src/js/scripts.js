@@ -46,43 +46,44 @@ jQuery(function ($) {
 		$('.recent-activity .pin').click(pinClick);
 
 		/* support filtering of my work */
-		var filterWork = function () {
-			var val = $('input[name=work-filter]').val().toLocaleLowerCase();
+		var filterContent = function () {
+			var val = $('input[name=content-filter]').val().toLocaleLowerCase();
+			var target = $('#content-filter-form').data('target');
 			var visible = 0;
-			$('.pin.client').closest('.col-md-4').each(function () {
-				var $client = $(this);
-				var clientText = $client.text().toLocaleLowerCase();
-				if (clientText.indexOf(val) !== -1) {
+			$(target).each(function () {
+				var $item = $(this);
+				var text = $item.text().toLocaleLowerCase();
+				if (text.indexOf(val) !== -1) {
 					visible++;
-					$client.show();
+					$item.show();
 				} else {
-					$client.hide();
+					$item.hide();
 				}
 			});
-			if ($('input[name=work-filter]').val() === '') {
-				$('form.work-filter .help-block').html('');
+			if ($('input[name=content-filter]').val() === '') {
+				$('#content-filter-form .help-block').html('');
 			} else {
-				$('form.work-filter .help-block').html('Found ' + visible + ' engagements related to ' + $('input[name=work-filter]').val() + '!');
+				$('#content-filter-form .help-block').html('Found ' + visible + ' items with ' + $('input[name=content-filter]').val() + '!');
 			}
 
 			return false;
 		};
-		$('form.work-filter').submit(function(){
+		$('#content-filter-form').submit(function(){
             window.dataLayer.push({
-                'event': 'workfilter'
+                'event': 'contentfilter'
             });
-            filterWork();
+            filterContent();
         });
-		$('input[name=work-filter]').change(function(){
+		$('input[name=content-filter]').change(function(){
             window.dataLayer.push({
-                'event': 'workfilter'
+                'event': 'contentfilter'
             });
-            filterWork();
+            filterContent();
         });
-		$('input[name=work-filter]').keyup(filterWork);
-		$('.work-filter-clear').click(function () {
-			$('input[name=work-filter]').val('');
-			filterWork();
+		$('input[name=content-filter]').keyup(filterContent);
+		$('.content-filter-clear').click(function () {
+			$('input[name=content-filter]').val('');
+			filterContent();
 		});
 	});
     if (navigator.userAgent.indexOf("Speed Insights") === -1) {

@@ -1,5 +1,5 @@
 {
     "jcr:primaryType" : "sling:Component",
-    "jcr:title": "Content Filter",
+    "jcr:title": "Variable List",
     "componentType": "DanKlco.com"
 }

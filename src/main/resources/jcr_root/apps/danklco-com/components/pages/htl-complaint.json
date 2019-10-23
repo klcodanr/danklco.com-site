@@ -1,0 +1,5 @@
+{
+    "jcr:primaryType" : "sling:Component",
+    "jcr:title": "DanKlco.com - HTL Complaint",
+    "componentType": "Page"
+}
