@@ -39,17 +39,27 @@ public class AnalyticsLaunchExportFormAction implements FormAction {
 			String orgId = formData.get("orgId", "");
 			String token = formData.get("token", "");
 			String reportSuite = formData.get("reportSuite", "");
-			String propertyId = formData.get("launchProperty", "");
+			String companyId = formData.get("launchProperty", "").split("::")[0];
+			String propertyId = formData.get("launchProperty", "").split("::")[1];
+			String companyName = formData.get("companyName", "");
 
 			Map<String, AnalyticsVariable> variables = new HashMap<>();
-			loadAnalyticsVariables(variables, reportSuite, "Evars", token);
-			loadAnalyticsVariables(variables, reportSuite, "Events", token);
-			loadAnalyticsVariables(variables, reportSuite, "Props", token);
+
+			String analyticsLink = String.format(
+					"https://analytics-discovery.adobe.net/1.0/loginRedirect?allow_project_redirect=1&IMS=1&company=%s&current_org=%s",
+					companyName, orgId);
+
+			loadAnalyticsVariables(variables, reportSuite, "Evars", analyticsLink, token);
+			loadAnalyticsVariables(variables, reportSuite, "Events", analyticsLink, token);
+			loadAnalyticsVariables(variables, reportSuite, "Props", analyticsLink, token);
+
+			String launchUrlBase = String.format("https://launch.adobe.com/companies/%s/properties/%s/", companyId,
+					propertyId);
 
 			loadLaunchExtension(variables, "https://reactor.adobe.io/properties/" + propertyId + "/extensions",
-					clientId, orgId, token);
+					clientId, orgId, token, launchUrlBase);
 			loadLaunchRules(variables, "https://reactor.adobe.io/properties/" + propertyId + "/rules", clientId, orgId,
-					token);
+					token, launchUrlBase);
 
 			List<AnalyticsVariable> vars = new ArrayList<>();
 			vars.addAll(variables.values());
@@ -69,7 +79,7 @@ public class AnalyticsLaunchExportFormAction implements FormAction {
 	}
 
 	private void loadLaunchRules(Map<String, AnalyticsVariable> variables, String url, String clientId, String orgId,
-			String token) throws MalformedURLException, IOException {
+			String token, String linkBase) throws MalformedURLException, IOException {
 		log.trace("loadLaunchExtension({})", url);
 		String responseStr = AdobeIOUtil.adobeIOGetRequest(url, clientId, orgId, token);
 		JsonObject response = parser.parse(responseStr).getAsJsonObject();
@@ -93,7 +103,7 @@ public class AnalyticsLaunchExportFormAction implements FormAction {
 					if ("adobe-analytics::actions::set-variables"
 							.equals(attributes.get("delegate_descriptor_id").getAsString())) {
 						String settingsStr = attributes.get("settings").getAsString();
-						loadAnalyticsExtensionSettings(variables, "Rule: " + ruleName,
+						loadAnalyticsExtensionSettings(variables, "Rule: " + ruleName, linkBase + "rules/" + id,
 								parser.parse(settingsStr).getAsJsonObject());
 					}
 				});
@@ -107,7 +117,7 @@ public class AnalyticsLaunchExportFormAction implements FormAction {
 			nextPage = el.getAsString();
 		}
 		if (StringUtils.isNotBlank(nextPage)) {
-			loadLaunchExtension(variables, nextPage, clientId, orgId, token);
+			loadLaunchExtension(variables, nextPage, clientId, orgId, token, linkBase);
 		}
 	}
 
@@ -116,17 +126,18 @@ public class AnalyticsLaunchExportFormAction implements FormAction {
 	}
 
 	private void loadLaunchExtension(Map<String, AnalyticsVariable> variables, String url, String clientId,
-			String orgId, String token) throws MalformedURLException, IOException {
+			String orgId, String token, String linkBase) throws MalformedURLException, IOException {
 		log.trace("loadLaunchExtension({})", url);
 		String responseStr = AdobeIOUtil.adobeIOGetRequest(url, clientId, orgId, token);
 		JsonObject response = parser.parse(responseStr).getAsJsonObject();
 		response.get("data").getAsJsonArray().forEach(extension -> {
+			String id = extension.getAsJsonObject().get("id").getAsString();
 			JsonObject attributes = extension.getAsJsonObject().get("attributes").getAsJsonObject();
 			String name = attributes.get("name").getAsString();
 			log.debug("Processing extension: {}", name);
 			if ("adobe-analytics".equals(name)) {
 				String settingsStr = attributes.get("settings").getAsString();
-				loadAnalyticsExtensionSettings(variables, "Extension: " + name,
+				loadAnalyticsExtensionSettings(variables, "Extension: " + name, linkBase + "extensions/" + id,
 						parser.parse(settingsStr).getAsJsonObject());
 				return;
 			}
@@ -138,44 +149,49 @@ public class AnalyticsLaunchExportFormAction implements FormAction {
 		}
 
 		if (StringUtils.isNotBlank(nextPage)) {
-			loadLaunchExtension(variables, nextPage, clientId, orgId, token);
+			loadLaunchExtension(variables, nextPage, clientId, orgId, token, linkBase);
 		}
 	}
 
 	private void loadAnalyticsExtensionSettings(Map<String, AnalyticsVariable> variables, String referenceName,
-			JsonObject settings) {
+			String link, JsonObject settings) {
 		log.trace("loadAnalyticsExtensionSettings({})", settings);
 		if (settings.has("trackerProperties")) {
 			JsonObject trackerSettings = settings.get("trackerProperties").getAsJsonObject();
 			if (trackerSettings.has("eVars")) {
-				handleVars(variables, referenceName, trackerSettings.get("eVars").getAsJsonArray());
+				handleVars(variables, referenceName, link, trackerSettings.get("eVars").getAsJsonArray());
 			}
 			if (trackerSettings.has("props")) {
-				handleVars(variables, referenceName, trackerSettings.get("props").getAsJsonArray());
+				handleVars(variables, referenceName, link, trackerSettings.get("props").getAsJsonArray());
 			}
 			if (trackerSettings.has("events")) {
-				handleVars(variables, referenceName, trackerSettings.get("events").getAsJsonArray());
+				handleVars(variables, referenceName, link, trackerSettings.get("events").getAsJsonArray());
 			}
 		}
 	}
 
-	private void handleVars(Map<String, AnalyticsVariable> variables, String referenceName, JsonArray vars) {
+	private void handleVars(Map<String, AnalyticsVariable> variables, String referenceName, String link,
+			JsonArray vars) {
 		vars.forEach(v -> {
 			JsonObject var = v.getAsJsonObject();
 			String name = var.get("name").getAsString().toLowerCase();
-			if (!variables.containsKey(name)) {
-				variables.put(name, new AnalyticsVariable(name));
+			if (name.startsWith("evar") || name.startsWith("prop") || name.startsWith("event")) {
+				if (!variables.containsKey(name)) {
+					variables.put(name, new AnalyticsVariable(name));
+				}
+				VariableReference reference = new VariableReference("Launch", link);
+				reference.getDetails().put("Reference Name", referenceName);
+				var.entrySet().stream().filter(e -> !e.getValue().isJsonNull())
+						.forEach(e -> reference.getDetails().put(e.getKey(), e.getValue().getAsString()));
+				variables.get(name).getReferences().add(reference);
+			} else {
+				log.debug("Ignoring non-custom variable: " + name);
 			}
-			VariableReference reference = new VariableReference("Launch");
-			reference.getDetails().put("Reference Name", referenceName);
-			var.entrySet().stream().filter(e -> !e.getValue().isJsonNull())
-					.forEach(e -> reference.getDetails().put(e.getKey(), e.getValue().getAsString()));
-			variables.get(name).getReferences().add(reference);
 		});
 	}
 
 	private void loadAnalyticsVariables(Map<String, AnalyticsVariable> variables, String reportSuite, String type,
-			String token) throws IOException {
+			String analyticsLink, String token) throws IOException {
 		log.trace("loadAnalyticsVariables({})", type);
 
 		JsonObject req = new JsonObject();
@@ -195,9 +211,9 @@ public class AnalyticsLaunchExportFormAction implements FormAction {
 				log.debug("Adding variable {}", name);
 				AnalyticsVariable var = new AnalyticsVariable(name);
 
-				VariableReference ref = new VariableReference("Analytics");
+				VariableReference ref = new VariableReference("Analytics", analyticsLink);
 				data.entrySet().stream().filter(e -> !e.getValue().isJsonNull())
-						.forEach(e -> ref.getDetails().put(e.getKey(), e.getValue().getAsString()));
+						.forEach(e -> ref.getDetails().put(e.getKey(), e.getValue().toString()));
 				var.getReferences().add(ref);
 				variables.put(name, var);
 			} else {

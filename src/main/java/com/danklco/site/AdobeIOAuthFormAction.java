@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -28,6 +29,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 @Component(service = FormAction.class, immediate = true)
 public class AdobeIOAuthFormAction implements FormAction {
@@ -49,11 +51,32 @@ public class AdobeIOAuthFormAction implements FormAction {
 			slingRequest.setAttribute("token", token);
 			slingRequest.setAttribute("reportSuites", getReportSuites(token));
 			slingRequest.setAttribute("launchProperties", getProperties(clientId, orgId, token));
+			slingRequest.setAttribute("companyNames", getCompanyNames(clientId, orgId, token));
 
 		} catch (IOException e) {
 			throw new FormException("Failed to authenticate with Adobe I/O", e);
 		}
 		return FormActionResult.success("Successfully authenticated with Adobe I/O");
+	}
+
+	private List<Entry<String, String>> getCompanyNames(String clientId, String orgId, String token) throws JsonSyntaxException, MalformedURLException, IOException {
+
+		log.trace("getCompanyNames");
+		List<Entry<String,String>> companyNames = new ArrayList<>();
+		
+		JsonArray orgs = parser
+				.parse(AdobeIOUtil.adobeIOGetRequestWithoutTypes("https://analytics.adobe.io/discovery/me", clientId, null, token))
+				.getAsJsonObject().get("imsOrgs").getAsJsonArray();
+		for (int i = 0; i < orgs.size(); i++) {
+			JsonObject org = orgs.get(i).getAsJsonObject();
+			if (orgId.equals(org.get("imsOrgId").getAsString())) {
+				org.get("companies").getAsJsonArray().forEach(c -> {
+					String company = c.getAsJsonObject().get("companyName").getAsString();
+					companyNames.add(new ImmutablePair<String,String>(company,company));
+				});
+			}
+		}
+		return companyNames;
 	}
 
 	public boolean handles(Resource actionResource) {
@@ -131,7 +154,8 @@ public class AdobeIOAuthFormAction implements FormAction {
 			String name = property.get("attributes").getAsJsonObject().get("name").getAsString();
 
 			getPropertiesFromCompany(id, clientId, orgId, token).forEach(p -> {
-				properties.add(new AbstractMap.SimpleEntry<String, String>(name + " / " + p.getKey(), p.getValue()));
+				properties.add(new AbstractMap.SimpleEntry<String, String>(name + " / " + p.getKey(),
+						id + "::" + p.getValue()));
 			});
 		}
 		log.debug("Loaded properties: {}", properties);

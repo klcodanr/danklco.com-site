@@ -23,10 +23,46 @@ public class AdobeIOUtil {
 			con = (HttpURLConnection) new URL(url).openConnection();
 
 			con.setRequestProperty("Authorization", "Bearer " + token);
-			con.setRequestProperty("Accept", "application/vnd.api+json;revision=1");
 			con.setRequestProperty("Cache-Control", "nocache");
 			con.setRequestProperty("Connection", "keep-alive");
+			con.setRequestProperty("Accept", "application/vnd.api+json;revision=1");
 			con.setRequestProperty("Content-Type", "application/vnd.api+json");
+			if (clientId != null) {
+				con.setRequestProperty("X-Api-Key", clientId);
+			}
+			if (orgId != null) {
+				con.setRequestProperty("X-Gw-Ims-Org-Id", orgId);
+			}
+			con.setUseCaches(false);
+			int rc = con.getResponseCode();
+			if (rc == 200) {
+				try (InputStream is = con.getInputStream()) {
+					return IOUtils.toString(is, StandardCharsets.UTF_8);
+				}
+			} else {
+				try (InputStream is = con.getErrorStream()) {
+					log.debug(IOUtils.toString(is, StandardCharsets.UTF_8));
+				}
+				throw new IOException("Failed to invoke Adobe I/O API: " + rc);
+			}
+		} finally {
+			if (con != null) {
+				con.disconnect();
+			}
+		}
+	}
+	
+
+	public static final String adobeIOGetRequestWithoutTypes(String url, String clientId, String orgId, String token)
+			throws MalformedURLException, IOException {
+		log.debug("adobeIOGetRequest({},{},{},TOKEN)", url, clientId, orgId);
+		HttpURLConnection con = null;
+		try {
+			con = (HttpURLConnection) new URL(url).openConnection();
+
+			con.setRequestProperty("Authorization", "Bearer " + token);
+			con.setRequestProperty("Cache-Control", "nocache");
+			con.setRequestProperty("Connection", "keep-alive");
 			if (clientId != null) {
 				con.setRequestProperty("X-Api-Key", clientId);
 			}

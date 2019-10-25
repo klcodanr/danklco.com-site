@@ -12,7 +12,12 @@
 					<ul class="list-group">
 						<c:forEach var="reference" items="${variable.references}">
 							<li class="list-group-item">
-								<strong><sling:encode value="${reference.solution}" mode="HTML" /></strong><br/>
+								<strong>
+									<a href="${reference.link}" target="_blank">
+										<sling:encode value="${reference.solution}" mode="HTML" />
+									</a>
+								</strong>
+								<br/>
 								<ul>
 									<c:forEach var="detail" items="${reference.details}">
 										<li>
