@@ -1,13 +1,14 @@
 package com.danklco.site;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
@@ -20,6 +21,7 @@ import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -32,37 +34,61 @@ public class AnalyticsLaunchExportFormAction implements FormAction {
 
 	private static final Logger log = LoggerFactory.getLogger(AnalyticsLaunchExportFormAction.class);
 
+	private class RequestData {
+		public String clientId;
+		public String orgId;
+		public String token;
+		public String reportSuite;
+		public String companyId;
+		public String propertyId;
+		public String companyName;
+		public List<Element> elements = new ArrayList<>();
+		public String analyticsLink;
+		public Map<String, AnalyticsVariable> variables = new HashMap<>();
+		public String launchUrlBase;
+
+	}
+
 	public FormActionResult handleForm(Resource actionResource, FormRequest request) throws FormException {
 		try {
+			RequestData requestData = new RequestData();
 			ValueMap formData = request.getFormData();
-			String clientId = formData.get("clientId", "");
-			String orgId = formData.get("orgId", "");
-			String token = formData.get("token", "");
-			String reportSuite = formData.get("reportSuite", "");
-			String companyId = formData.get("launchProperty", "").split("::")[0];
-			String propertyId = formData.get("launchProperty", "").split("::")[1];
-			String companyName = formData.get("companyName", "");
-
-			Map<String, AnalyticsVariable> variables = new HashMap<>();
-
-			String analyticsLink = String.format(
+			requestData.clientId = formData.get("clientId", "");
+			requestData.orgId = formData.get("orgId", "");
+			requestData.token = formData.get("token", "");
+			requestData.reportSuite = formData.get("reportSuite", "");
+			requestData.companyId = formData.get("launchProperty", "").split("::")[0];
+			requestData.propertyId = formData.get("launchProperty", "").split("::")[1];
+			requestData.companyName = formData.get("companyName", "");
+			requestData.launchUrlBase = String.format("https://launch.adobe.com/companies/%s/properties/%s/",
+					requestData.companyId, requestData.propertyId);
+			requestData.analyticsLink = String.format(
 					"https://analytics-discovery.adobe.net/1.0/loginRedirect?allow_project_redirect=1&IMS=1&company=%s&current_org=%s",
-					companyName, orgId);
+					requestData.companyName, requestData.orgId);
 
-			loadAnalyticsVariables(variables, reportSuite, "Evars", analyticsLink, token);
-			loadAnalyticsVariables(variables, reportSuite, "Events", analyticsLink, token);
-			loadAnalyticsVariables(variables, reportSuite, "Props", analyticsLink, token);
+			Node company = Node.create("Company", requestData.companyId, "Company");
+			requestData.elements.add(company);
 
-			String launchUrlBase = String.format("https://launch.adobe.com/companies/%s/properties/%s/", companyId,
-					propertyId);
+			Node analytics = Node.create("Analytics", requestData.reportSuite,
+					"Analytics Report Suite: " + requestData.reportSuite);
+			requestData.elements.add(analytics);
+			requestData.elements.add(Edge.connect(company.getId(), analytics.getId(),
+					requestData.companyId + " > " + requestData.reportSuite));
 
-			loadLaunchExtension(variables, "https://reactor.adobe.io/properties/" + propertyId + "/extensions",
-					clientId, orgId, token, launchUrlBase);
-			loadLaunchRules(variables, "https://reactor.adobe.io/properties/" + propertyId + "/rules", clientId, orgId,
-					token, launchUrlBase);
+			loadAnalyticsVariables(requestData, "Evars");
+			loadAnalyticsVariables(requestData, "Events");
+			loadAnalyticsVariables(requestData, "Props");
 
+			Node launch = Node.create("Launch", requestData.propertyId, "Launch Property: " + requestData.propertyId);
+			requestData.elements.add(launch);
+			requestData.elements.add(Edge.connect(company.getId(), launch.getId(),
+					requestData.companyId + " > " + requestData.propertyId));
+
+			loadLaunchExtension(requestData,
+					"https://reactor.adobe.io/properties/" + requestData.propertyId + "/extensions");
+			loadLaunchRules(requestData, "https://reactor.adobe.io/properties/" + requestData.propertyId + "/rules");
 			List<AnalyticsVariable> vars = new ArrayList<>();
-			vars.addAll(variables.values());
+			vars.addAll(requestData.variables.values());
 			Collections.sort(vars, new Comparator<AnalyticsVariable>() {
 				@Override
 				public int compare(AnalyticsVariable o1, AnalyticsVariable o2) {
@@ -71,6 +97,33 @@ public class AnalyticsLaunchExportFormAction implements FormAction {
 
 			});
 			request.getOriginalRequest().setAttribute("variables", vars);
+			Set<String> validIds = new HashSet<>();
+			JsonArray arr = new JsonArray();
+			requestData.elements.forEach(e -> {
+				JsonObject element = new JsonObject();
+				if (e instanceof Edge) {
+					element.addProperty("group", "edges");
+
+				} else {
+					element.addProperty("group", "nodes");
+					element.addProperty("classes", e.getId().replace("__", " "));
+				}
+				element.add("data", new Gson().toJsonTree(e));
+				arr.add(element);
+				validIds.add(e.getId());
+			});
+			requestData.elements.stream().filter(e -> e instanceof Edge).map(e -> (Edge) e)
+					.filter(e -> !validIds.contains(e.getTarget())).map(Edge::getTarget).forEach(id -> {
+						JsonObject element = new JsonObject();
+						element.addProperty("group", "nodes");
+						element.addProperty("classes", "missing");
+						JsonObject data = new JsonObject();
+						data.addProperty("id", id);
+						data.addProperty("name", "Missing element " + id + "!");
+						element.add("data", data);
+						arr.add(element);
+					});
+			request.getOriginalRequest().setAttribute("elements", arr.toString());
 
 		} catch (IOException e) {
 			throw new FormException("Failed to call Adobe I/O", e);
@@ -78,10 +131,10 @@ public class AnalyticsLaunchExportFormAction implements FormAction {
 		return FormActionResult.success("Successfully authenticated with Adobe I/O");
 	}
 
-	private void loadLaunchRules(Map<String, AnalyticsVariable> variables, String url, String clientId, String orgId,
-			String token, String linkBase) throws MalformedURLException, IOException {
+	private void loadLaunchRules(RequestData requestData, String url) throws IOException {
 		log.trace("loadLaunchExtension({})", url);
-		String responseStr = AdobeIOUtil.adobeIOGetRequest(url, clientId, orgId, token);
+		String responseStr = AdobeIOUtil.adobeIOGetRequest(url, requestData.clientId, requestData.orgId,
+				requestData.token);
 		JsonObject response = parser.parse(responseStr).getAsJsonObject();
 		JsonArray data = response.get("data").getAsJsonArray();
 		for (int i = 0; i < data.size(); i++) {
@@ -95,16 +148,22 @@ public class AnalyticsLaunchExportFormAction implements FormAction {
 
 				log.debug("Handling rule {}", ruleName);
 
+				Node en = Node.create("Launch Rule", id, ruleName);
+				requestData.elements.add(en);
+				requestData.elements.add(Edge.connect(Node.getId("Launch", requestData.propertyId), en.getId(),
+						"Launch Property " + requestData.propertyId + " includes Rule " + ruleName));
+
 				String componentsStr = AdobeIOUtil.adobeIOGetRequest(
-						"https://reactor.adobe.io/rules/" + id + "/rule_components", clientId, orgId, token);
+						"https://reactor.adobe.io/rules/" + id + "/rule_components", requestData.clientId,
+						requestData.orgId, requestData.token);
 				JsonArray components = parser.parse(componentsStr).getAsJsonObject().get("data").getAsJsonArray();
 				components.forEach(component -> {
 					JsonObject attributes = component.getAsJsonObject().get("attributes").getAsJsonObject();
 					if ("adobe-analytics::actions::set-variables"
 							.equals(attributes.get("delegate_descriptor_id").getAsString())) {
 						String settingsStr = attributes.get("settings").getAsString();
-						loadAnalyticsExtensionSettings(variables, "Rule: " + ruleName, linkBase + "rules/" + id,
-								parser.parse(settingsStr).getAsJsonObject());
+						loadAnalyticsExtensionSettings(requestData, "Rule: " + ruleName, en.getId(),
+								requestData.launchUrlBase + "rules/" + id, parser.parse(settingsStr).getAsJsonObject());
 					}
 				});
 			} else {
@@ -117,7 +176,7 @@ public class AnalyticsLaunchExportFormAction implements FormAction {
 			nextPage = el.getAsString();
 		}
 		if (StringUtils.isNotBlank(nextPage)) {
-			loadLaunchExtension(variables, nextPage, clientId, orgId, token, linkBase);
+			loadLaunchRules(requestData, nextPage);
 		}
 	}
 
@@ -125,21 +184,27 @@ public class AnalyticsLaunchExportFormAction implements FormAction {
 		return attr.get("enabled").getAsBoolean() || attr.get("published").getAsBoolean();
 	}
 
-	private void loadLaunchExtension(Map<String, AnalyticsVariable> variables, String url, String clientId,
-			String orgId, String token, String linkBase) throws MalformedURLException, IOException {
+	private void loadLaunchExtension(RequestData requestData, String url) throws IOException {
 		log.trace("loadLaunchExtension({})", url);
-		String responseStr = AdobeIOUtil.adobeIOGetRequest(url, clientId, orgId, token);
+		String responseStr = AdobeIOUtil.adobeIOGetRequest(url, requestData.clientId, requestData.orgId,
+				requestData.token);
 		JsonObject response = parser.parse(responseStr).getAsJsonObject();
 		response.get("data").getAsJsonArray().forEach(extension -> {
 			String id = extension.getAsJsonObject().get("id").getAsString();
 			JsonObject attributes = extension.getAsJsonObject().get("attributes").getAsJsonObject();
 			String name = attributes.get("name").getAsString();
+
+			Node en = Node.create("Launch Extension", id, name);
+			requestData.elements.add(en);
+			requestData.elements.add(Edge.connect(Node.getId("Launch", requestData.propertyId), en.getId(),
+					"Launch Property " + requestData.propertyId + " includes Extension " + name));
+
 			log.debug("Processing extension: {}", name);
 			if ("adobe-analytics".equals(name)) {
 				String settingsStr = attributes.get("settings").getAsString();
-				loadAnalyticsExtensionSettings(variables, "Extension: " + name, linkBase + "extensions/" + id,
-						parser.parse(settingsStr).getAsJsonObject());
-				return;
+				loadAnalyticsExtensionSettings(requestData, "Extension: " + name, en.getId(),
+						requestData.launchUrlBase + "extensions/" + id, parser.parse(settingsStr).getAsJsonObject());
+
 			}
 		});
 		String nextPage = null;
@@ -149,57 +214,60 @@ public class AnalyticsLaunchExportFormAction implements FormAction {
 		}
 
 		if (StringUtils.isNotBlank(nextPage)) {
-			loadLaunchExtension(variables, nextPage, clientId, orgId, token, linkBase);
+			loadLaunchExtension(requestData, nextPage);
 		}
 	}
 
-	private void loadAnalyticsExtensionSettings(Map<String, AnalyticsVariable> variables, String referenceName,
+	private void loadAnalyticsExtensionSettings(RequestData requestData, String referenceName, String sourceId,
 			String link, JsonObject settings) {
 		log.trace("loadAnalyticsExtensionSettings({})", settings);
 		if (settings.has("trackerProperties")) {
 			JsonObject trackerSettings = settings.get("trackerProperties").getAsJsonObject();
 			if (trackerSettings.has("eVars")) {
-				handleVars(variables, referenceName, link, trackerSettings.get("eVars").getAsJsonArray());
+				handleVars(requestData, referenceName, sourceId, link, trackerSettings.get("eVars").getAsJsonArray());
 			}
 			if (trackerSettings.has("props")) {
-				handleVars(variables, referenceName, link, trackerSettings.get("props").getAsJsonArray());
+				handleVars(requestData, referenceName, sourceId, link, trackerSettings.get("props").getAsJsonArray());
 			}
 			if (trackerSettings.has("events")) {
-				handleVars(variables, referenceName, link, trackerSettings.get("events").getAsJsonArray());
+				handleVars(requestData, referenceName, sourceId, link, trackerSettings.get("events").getAsJsonArray());
 			}
 		}
 	}
 
-	private void handleVars(Map<String, AnalyticsVariable> variables, String referenceName, String link,
+	private void handleVars(RequestData requestData, String referenceName, String sourceId, String link,
 			JsonArray vars) {
 		vars.forEach(v -> {
 			JsonObject var = v.getAsJsonObject();
 			String name = var.get("name").getAsString().toLowerCase();
 			if (name.startsWith("evar") || name.startsWith("prop") || name.startsWith("event")) {
-				if (!variables.containsKey(name)) {
-					variables.put(name, new AnalyticsVariable(name));
+				if (!requestData.variables.containsKey(name)) {
+					requestData.variables.put(name, new AnalyticsVariable(name));
 				}
 				VariableReference reference = new VariableReference("Launch", link);
 				reference.getDetails().put("Reference Name", referenceName);
 				var.entrySet().stream().filter(e -> !e.getValue().isJsonNull())
 						.forEach(e -> reference.getDetails().put(e.getKey(), e.getValue().getAsString()));
-				variables.get(name).getReferences().add(reference);
+				requestData.variables.get(name).getReferences().add(reference);
+
+				requestData.elements.add(Edge.connect(sourceId, Node.getId("Analytics", name),
+						sourceId + " references Analytics item " + name));
 			} else {
-				log.debug("Ignoring non-custom variable: " + name);
+				log.debug("Ignoring non-custom variable: {}", name);
 			}
 		});
 	}
 
-	private void loadAnalyticsVariables(Map<String, AnalyticsVariable> variables, String reportSuite, String type,
-			String analyticsLink, String token) throws IOException {
+	private void loadAnalyticsVariables(RequestData requestData, String type) throws IOException {
 		log.trace("loadAnalyticsVariables({})", type);
 
 		JsonObject req = new JsonObject();
 		JsonArray rs = new JsonArray();
-		rs.add(new JsonPrimitive(reportSuite));
+		rs.add(new JsonPrimitive(requestData.reportSuite));
 		req.add("rsid_list", rs);
 		String response = AdobeIOUtil.adobeIOPostRequest(
-				"https://api.omniture.com/admin/1.4/rest/?method=ReportSuite.Get" + type, req.toString(), token);
+				"https://api.omniture.com/admin/1.4/rest/?method=ReportSuite.Get" + type, req.toString(),
+				requestData.token);
 
 		JsonArray vars = parser.parse(response).getAsJsonArray().get(0).getAsJsonObject().get(type.toLowerCase())
 				.getAsJsonArray();
@@ -211,11 +279,16 @@ public class AnalyticsLaunchExportFormAction implements FormAction {
 				log.debug("Adding variable {}", name);
 				AnalyticsVariable var = new AnalyticsVariable(name);
 
-				VariableReference ref = new VariableReference("Analytics", analyticsLink);
+				VariableReference ref = new VariableReference("Analytics", requestData.analyticsLink);
 				data.entrySet().stream().filter(e -> !e.getValue().isJsonNull())
 						.forEach(e -> ref.getDetails().put(e.getKey(), e.getValue().toString()));
 				var.getReferences().add(ref);
-				variables.put(name, var);
+				requestData.variables.put(name, var);
+
+				Node variable = Node.create("Analytics", var.getName(), var.getName());
+				requestData.elements.add(variable);
+				requestData.elements.add(Edge.connect(Node.getId("Analytics", requestData.reportSuite),
+						variable.getId(), var.getName() + " belongs to " + requestData.reportSuite));
 			} else {
 				log.debug("Variable {} is not enabled / custom", name);
 			}

@@ -9,7 +9,6 @@ public class AnalyticsVariable {
 	private final VariableName variableName;
 
 	public AnalyticsVariable(String name) {
-		
 		this.name = name;
 		this.variableName = new VariableName(name);
 	}
