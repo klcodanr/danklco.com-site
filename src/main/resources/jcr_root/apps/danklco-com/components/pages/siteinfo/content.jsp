@@ -31,14 +31,14 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th>Domain</th>
-								<th title="Shows the tools / technologies used to build the site">BuiltWith</th>
-								<th title="Shows statistics about the site traffic and information about how people get to the site">SimilarWeb</th>
-								<th title="Runs SEO analysis on the homepage of the site">SEO Analyzer</th>
-								<th title="Runs speed checks to determine the perceived speed of a site">PageSpeed</th>
-								<th title="WAVE: Runs accessibility checks on the homepage">Accessibility</th>
-								<th title="Provided by W3C: Runs a HTML Validator of the homepage">HTML Validator</th>
-								<th title="Provided by Qualsys: Validates the SSL certificates for the site">SSL Check</th>
+								<th scope="col">Domain</th>
+								<th scope="col" title="Shows the tools / technologies used to build the site">BuiltWith</th>
+								<th scope="col" title="Shows statistics about the site traffic and information about how people get to the site">SimilarWeb</th>
+								<th scope="col" title="Runs SEO analysis on the homepage of the site">SEO Analyzer</th>
+								<th scope="col" title="Runs speed checks to determine the perceived speed of a site">PageSpeed</th>
+								<th scope="col" title="WAVE: Runs accessibility checks on the homepage">Accessibility</th>
+								<th scope="col" title="Provided by W3C: Runs a HTML Validator of the homepage">HTML Validator</th>
+								<th scope="col" title="Provided by Qualsys: Validates the SSL certificates for the site">SSL Check</th>
 							</tr>
 						</thead>
 						<tbody>

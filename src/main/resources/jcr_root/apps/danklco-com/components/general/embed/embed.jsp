@@ -3,13 +3,13 @@
 	<c:when test="${properties.mediaType == 'embed'}">
 		<br/><br/>
 		<div class="embed-responsive embed-responsive-16by9">
-			<iframe src="${properties.media}" class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+			<iframe src="${properties.media}" class="embed-responsive-item" allowfullscreen="allowfullscreen" title="Video Embed"></iframe>
 		</div>
 	</c:when>
 	<c:when test="${properties.mediaType == 'pdf'}">
 		<br/><br/>
 		<div class="embed-responsive embed-responsive-4by3">
-			<iframe src="${properties.media}" class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+			<iframe src="${properties.media}" class="embed-responsive-item" allowfullscreen="allowfullscreen" title="PDF Embed"></iframe>
 		</div>
 	</c:when>
 	<c:when test="${properties.mediaType == 'audio'}">
