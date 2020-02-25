@@ -1,6 +1,6 @@
 # DanKlco.com
 
-My personal website, built to work with Sling CMS.
+My personal website, built with [Sling CMS](https://github.com/apache/sling-org-apache-sling-app-cms).
 
 ## Build
 
