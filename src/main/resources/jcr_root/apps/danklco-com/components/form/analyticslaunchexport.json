@@ -1,5 +1,0 @@
-{
-    "jcr:primaryType" : "sling:Component",
-    "jcr:title": "Analytics / Launch Export",
-    "componentType": "Form Action"
-}

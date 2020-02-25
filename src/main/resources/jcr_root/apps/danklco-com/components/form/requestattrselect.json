@@ -1,6 +1,0 @@
-{
-    "jcr:primaryType" : "sling:Component",
-    "jcr:title": "Request Attribute Select",
-    "componentType": "Form Field",
-    "reloadPage": true
-}
