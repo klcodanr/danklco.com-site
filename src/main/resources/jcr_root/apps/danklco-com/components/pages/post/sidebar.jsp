@@ -19,4 +19,5 @@
 	</div>
 </div>
 <hr />
-<sling:include path="twitter" resourceType="danklco-com/components/general/twitter" />
+<h3>Recent Tweets</h3>
+<sling:include path="/content/personal-sites/danklco-com/posts/jcr:content/timeline_embed" resourceType="danklco-com/twitter/components/timeline-embed" />
