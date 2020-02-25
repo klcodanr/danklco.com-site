@@ -7,6 +7,10 @@ body {
 	font-family: 'Lato', sans-serif;
 }
 
+a, .page-link {
+	color: #0053B3;
+}
+
 blockquote {
     padding: 1em;
     background-color: #fafafa;
@@ -150,6 +154,13 @@ h2 {
 .graybar {
 	padding: 2em 2em;
 	background-color: #e1e1e1;
+}
+.pagination {
+    overflow-x: auto;
+}
+.page-item.active .page-link {
+	background-color: #0053B3;
+	border-color: #0053B3;
 }
 .form-control {
 	border-radius: 0px;
