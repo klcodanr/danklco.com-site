@@ -1,0 +1,28 @@
+# Deploys code updates to my personal site on push to the master branch
+
+name: Deploy on Push
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+        settings-path: ${{ github.workspace }} # location for the settings.xml file
+
+    - name: Build and Deploy
+      run: mvn install -B -s $GITHUB_WORKSPACE/settings.xml -PautoInstallBundke
+      env:
+        sling.protocol: https
+        sling.port: 443
+        sling.host: $DEPLOY_HOST
+        sling.username: $DEPLOY_USERNAME
+        sling.password: $DEPLOY_PASSWORD
