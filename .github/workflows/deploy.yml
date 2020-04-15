@@ -19,7 +19,7 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Build and Deploy
-      run: mvn install -B -s $GITHUB_WORKSPACE/settings.xml -PautoInstallBundke
+      run: mvn install -B -s $GITHUB_WORKSPACE/settings.xml -PautoInstallBundle
       env:
         sling.protocol: https
         sling.port: 443
