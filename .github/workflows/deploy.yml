@@ -15,7 +15,6 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
     - name: Build and Deploy
-      run: mvn install -B -s $GITHUB_WORKSPACE/settings.xml -PautoInstallBundle -Dsling.protocol=https -Dsling.port=443 -Dsling.host=$DEPLOY_URL -Dsling.username=$DEPLOY_USERNAME -Dsling.password=$DEPLOY_PASSWORD
+      run: mvn install -B -P autoInstallBundle -Dsling.protocol=https -Dsling.port=443 -Dsling.host=$DEPLOY_URL -Dsling.username=$DEPLOY_USERNAME -Dsling.password=$DEPLOY_PASSWORD
