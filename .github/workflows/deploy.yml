@@ -19,6 +19,6 @@ jobs:
     - name: Build and Deploy
       run: mvn install -B -s $GITHUB_WORKSPACE/settings.xml -PautoInstallBundle -Dsling.protocol=https -Dsling.port=443 
       env:
-        sling.host: ${{ DEPLOY_HOST }}
-        sling.username: ${{ DEPLOY_USERNAME }}
-        sling.password: ${{ DEPLOY_PASSWORD }}
+        sling.host: ${{ secrets.DEPLOY_HOST }}
+        sling.username: ${{ secrets.DEPLOY_USERNAME }}
+        sling.password: ${{ secrets.DEPLOY_PASSWORD }}
