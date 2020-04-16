@@ -17,4 +17,4 @@ jobs:
         server-id: github
         settings-path: ${{ github.workspace }}
     - name: Build and Deploy
-      run: mvn install -B -s $GITHUB_WORKSPACE/settings.xml -PautoInstallBundle -Dsling.protocol=https -Dsling.port=443 -Dsling.host=$DEPLOY_HOST -Dsling.username=$DEPLOY_USERNAME -Dsling.password=$DEPLOY_PASSWORD
+      run: mvn install -B -s $GITHUB_WORKSPACE/settings.xml -PautoInstallBundle -Dsling.protocol=https -Dsling.port=443 -Dsling.host=$DEPLOY_URL -Dsling.username=$DEPLOY_USERNAME -Dsling.password=$DEPLOY_PASSWORD
