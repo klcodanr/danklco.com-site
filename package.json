@@ -20,7 +20,7 @@
     "gulp-babel": "^8.0.0",
     "gulp-clean-css": "^4.3.0",
     "gulp-concat": "^2.6.1",
-    "gulp-util": "^3.0.8"
+    "gulp-noop": "^1.0.0"
   },
   "license": "CC-BY-NC-4.0"
 }
