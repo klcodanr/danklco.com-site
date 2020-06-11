@@ -39,6 +39,7 @@
 								<th scope="col" title="WAVE: Runs accessibility checks on the homepage">Accessibility</th>
 								<th scope="col" title="Provided by W3C: Runs a HTML Validator of the homepage">HTML Validator</th>
 								<th scope="col" title="Provided by Qualsys: Validates the SSL certificates for the site">SSL Check</th>
+								<th scope="col" title="Provided by ReportURI: Validates the usage of security headers">Security Headers</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -48,11 +49,12 @@
 										<td>${sling:encode(domain,'HTML')}</td>
 										<td><a href="https://builtwith.com/${sling:encode(domain,'HTML_ATTR')}" target="_blank">BuiltWith</a></td>
 										<td><a href="https://www.similarweb.com/website/${sling:encode(domain,'HTML_ATTR')}" target="_blank">SimilarWeb</a></td>
-										<td><a href="http://tools.neilpatel.com/en/analyze/${sling:encode(domain,'HTML_ATTR')}" target="_blank">SEO Analyzer</a></td>
+										<td><a href="https://freetools.seobility.net/en/seocheck/check?url=${sling:encode(domain,'HTML_ATTR')}" target="_blank">SEO Analyzer</a></td>
 										<td><a href="https://developers.google.com/speed/pagespeed/insights/?url=${sling:encode(domain,'HTML_ATTR')}" target="_blank">PageSpeed</a></td>
 										<td><a href="http://wave.webaim.org/report#/${sling:encode(domain,'HTML_ATTR')}" target="_blank">Accessibility</a></td>
 										<td><a href="https://validator.w3.org/check?charset=%28detect+automatically%29&doctype=Inline&group=0&uri=${sling:encode(domain,'HTML_ATTR')}" target="_blank">HTML Validator</a></td>
 										<td><a href="https://www.ssllabs.com/ssltest/analyze.html?latest&d=${sling:encode(domain,'HTML_ATTR')}" target="_blank">SSL Check</a></td>
+										<td><a href="https://securityheaders.com/?q=${sling:encode(domain,'HTML_ATTR')}&followRedirects=on" target="_blank">Security Headers</a></td>
 									</tr>
 								</c:if>
 							</c:forEach>
