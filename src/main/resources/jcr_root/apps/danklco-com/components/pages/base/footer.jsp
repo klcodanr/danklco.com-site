@@ -1,5 +1,5 @@
 <%@include file="/apps/danklco-com/global.jsp"%>
-<footer class="transparent-block-inverse row">
+<footer class="transparent-block-inverse">
 	<div class="container">
         <jsp:useBean id="date" class="java.util.Date" />
         <fmt:formatDate value="${date}" pattern="yyyy" var="currentYear" />

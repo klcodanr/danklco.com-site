@@ -1,5 +1,5 @@
 <%@include file="/apps/danklco-com/global.jsp"%>
-<header class="page-header row">
+<header class="page-header">
 	<div class="container">
 		<div class="content" typeof="Person">
 			<a href="/" title="Home">
