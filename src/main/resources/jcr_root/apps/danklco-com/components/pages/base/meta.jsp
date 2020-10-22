@@ -1,7 +1,7 @@
 <%@include file="/apps/danklco-com/global.jsp"%>
 <c:set var="page" value="${sling:adaptTo(resource,'org.apache.sling.cms.PageManager').page}" />
 <c:if test="${slingRequest.requestPathInfo.suffixResource != null && slingRequest.requestPathInfo.suffixResource.resourceType == 'sling:Taxonomy'}">
-	<c:set var="titlePrefix" value="${sling:encode(slingRequest.requestPathInfo.suffixResource.valueMap['jcr:title'],'HTML')} | " />
+    <c:set var="titlePrefix" value="${sling:encode(slingRequest.requestPathInfo.suffixResource.valueMap['jcr:title'],'HTML')} | " />
 </c:if>
 <title>${titlePrefix}<sling:encode value="${properties['jcr:title']}" mode="HTML" /> | Dan Klco - Adobe Digital Marketing Architect</title>
 <meta content="${fn:join(page.keywords,',')}" name="keywords" />
@@ -13,8 +13,16 @@
 <meta property="og:title" content="${titlePrefix}${sling:encode(properties['jcr:title'], 'HTML')} | Dan Klco - Adobe Digital Marketing Architect"/>
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="${titlePrefix}${sling:encode(properties['jcr:title'], 'HTML')} | Dan Klco - Adobe Digital Marketing Architect" />
-<meta property="og:image" content="/static/clientlibs/danklco-com/img/me.jpg"/>
-<meta name="twitter:image" content="/static/clientlibs/danklco-com/img/me.jpg"/>
+<c:choose>
+    <c:when test="${not empty properties['sling:thumbnail']}">
+        <meta property="og:image" content="${properties['sling:thumbnail']}"/>
+        <meta name="twitter:image" content="${properties['sling:thumbnail']}"/>
+    </c:when>
+    <c:otherwise>
+        <meta property="og:image" content="/static/clientlibs/danklco-com/img/me.jpg"/>
+        <meta name="twitter:image" content="/static/clientlibs/danklco-com/img/me.jpg"/>
+    </c:otherwise>
+</c:choose>
 <c:set var="publishedUrl" value="https://www.danklco.com${fn:replace(page.publishedPath,'index.html','')}${slingRequest.requestPathInfo.suffix}" />
 <meta property="og:url" content="${publishedUrl}"/>
 <link rel="canonical" href="${publishedUrl}" />
