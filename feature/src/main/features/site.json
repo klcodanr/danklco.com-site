@@ -1,0 +1,70 @@
+{
+    "bundles": [
+        {
+            "id": "com.danklco:com.danklco.slingcms.plugins.disqus:1.0",
+            "start-order": "20"
+        },
+        {
+            "id": "com.danklco:com.danklco.slingcms.plugins.twitter:1.0",
+            "start-order": "20"
+        },
+        {
+            "id": "com.danklco:com.danklco.site.bundle:1.0.0-SNAPSHOT",
+            "start-order": "20"
+        }
+    ],
+    "configurations": {
+        "org.apache.sling.cms.core.analytics.impl.GeoLocatorImpl": {
+            "scheduler.expression": "0 0 0 ? * WED",
+            "licenseKey": "${MAXMIND_LICENSE_KEY}"
+        },
+        "org.apache.sling.cms.reference.impl.SearchServiceImpl": {
+            "searchServiceUsername": "dklco-com-search-user"
+        },
+        "org.apache.sling.commons.crypto.internal.FilePasswordProvider~default": {
+            "names": [
+                "default"
+            ],
+            "path": "/data/slingcms/passwd"
+        },
+        "org.apache.sling.commons.crypto.jasypt.internal.JasyptRandomIvGeneratorRegistrar~default": {
+            "algorithm": "SHA1PRNG"
+        },
+        "org.apache.sling.commons.crypto.jasypt.internal.JasyptRandomSaltGeneratorRegistrar~default": {
+            "algorithm": "SHA1PRNG"
+        },
+        "org.apache.sling.commons.crypto.jasypt.internal.JasyptStandardPBEStringCryptoService~default": {
+            "algorithm": "PBEWITHHMACSHA512ANDAES_256",
+            "saltGenerator.target": "",
+            "securityProviderName": "",
+            "ivGenerator.target": "",
+            "securityProvider.target": "",
+            "keyObtentionIterations": 1000,
+            "names": [
+                "default"
+            ],
+            "stringOutputType": "base64"
+        },
+        "org.apache.sling.commons.messaging.mail.internal.SimpleMailService~default": {
+            "connectionListeners.target": "",
+            "transportListeners.target": "",
+            "username": "${SMTP_USERNAME}",
+            "mail.smtps.from": "${SMTP_USERNAME}",
+            "messageIdProvider.target": "",
+            "mail.smtps.host": "${SMTP_HOST}",
+            "names": [
+                "default"
+            ],
+            "password": "${SMTP_ENC_PASSWORD}",
+            "mail.smtps.port": 465,
+            "cryptoService.target": "",
+            "threadpool.name": "default"
+        },
+        "org.apache.sling.commons.messaging.mail.internal.SimpleMessageIdProvider~default": {
+            "host": "danklco.com",
+            "names": [
+                "default"
+            ]
+        }
+    }
+}

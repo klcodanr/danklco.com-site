@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.danklco</groupId>
+        <artifactId>com.danklco.site</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>com.danklco.site.feature</artifactId>
+    <name>DanKlco.com - Feature Model</name>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.sling</groupId>
+                <artifactId>slingfeature-maven-plugin</artifactId>
+                <version>1.3.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <framework>
+                        <groupId>org.apache.felix</groupId>
+                        <artifactId>org.apache.felix.framework</artifactId>
+                        <version>6.0.3</version>
+                    </framework>
+                    <aggregates>
+                        <aggregate>
+                            <classifier>danklco-com-seed</classifier>
+                            <filesInclude>*.json,**/*.json</filesInclude>
+                            <includeArtifact>
+                                <groupId>org.apache.sling</groupId>
+                                <artifactId>org.apache.sling.cms.feature</artifactId>
+                                <version>0.16.3-SNAPSHOT</version>
+                                <classifier>slingcms-composite-seed</classifier>
+                                <type>slingosgifeature</type>
+                            </includeArtifact>
+                            <includeArtifact>
+                                <groupId>org.apache.sling</groupId>
+                                <artifactId>org.apache.sling.cms.feature</artifactId>
+                                <version>0.16.3-SNAPSHOT</version>
+                                <classifier>runmode-standalone</classifier>
+                                <type>slingosgifeature</type>
+                            </includeArtifact>
+                            <title>DanKlco.com</title>
+                        </aggregate>
+                        <aggregate>
+                            <classifier>danklco-com-runtime</classifier>
+                            <filesInclude>*.json,**/*.json</filesInclude>
+                            <includeArtifact>
+                                <groupId>org.apache.sling</groupId>
+                                <artifactId>org.apache.sling.cms.feature</artifactId>
+                                <version>0.16.3-SNAPSHOT</version>
+                                <classifier>slingcms-composite-runtime</classifier>
+                                <type>slingosgifeature</type>
+                            </includeArtifact>
+                            <includeArtifact>
+                                <groupId>org.apache.sling</groupId>
+                                <artifactId>org.apache.sling.cms.feature</artifactId>
+                                <version>0.16.3-SNAPSHOT</version>
+                                <classifier>runmode-standalone</classifier>
+                                <type>slingosgifeature</type>
+                            </includeArtifact>
+                            <title>DanKlco.com</title>
+                        </aggregate>
+                    </aggregates>
+                    <scans>
+                        <scan>
+                            <includeClassifier>danklco-com-seed</includeClassifier>
+                        </scan>
+                        <scan>
+                            <includeClassifier>danklco-com-runtime</includeClassifier>
+                        </scan>
+                    </scans>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>aggregate-features</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>aggregate-features</goal>
+                            <goal>analyse-features</goal>
+                            <goal>attach-features</goal>
+                        </goals>
+                        <configuration>
+                            <replacePropertyVariables>MAXMIND_LICENSE_KEY,SMTP_HOST,SMTP_USERNAME,SMTP_ENC_PASSWORD</replacePropertyVariables>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
