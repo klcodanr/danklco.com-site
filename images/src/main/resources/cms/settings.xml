@@ -19,9 +19,9 @@
             </activation>
             <repositories>
                 <repository>
-                    <id>apache.snapshots</id>
-                    <name>Apache Development Snapshot Repository</name>
-                    <url>https://repository.apache.org/content/repositories/snapshots/</url>
+                    <id>github</id>
+                    <name>GitHub Apache Maven Packages</name>
+                    <url>https://maven.pkg.github.com/klcodanr/danklco.com-site-cna</url>
                     <releases>
                         <enabled>true</enabled>
                     </releases>
@@ -32,4 +32,12 @@
             </repositories>
         </profile>
     </profiles>
+
+    <servers>
+      <server>
+        <id>github</id>
+        <username>klcodanr</username>
+        <password>${GITHUB_TOKEN}</password>
+      </server>
+    </servers>
 </settings>

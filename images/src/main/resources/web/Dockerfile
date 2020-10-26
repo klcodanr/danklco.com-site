@@ -36,12 +36,7 @@ RUN a2enmod headers
 # Configure sites
 RUN mkdir -p /var/www/vhosts/sling-cms && mkdir -p /var/www/vhosts/sling && mkdir -p /etc/cloudflare
 COPY *.conf /etc/apache2/sites-enabled/
-COPY cloudflare/*.conf /etc/cloudflare/
-
-# Write certificates
-RUN echo "${ORIGIN_CERT}" > /etc/cloudflare/origin.pem
-RUN echo "${ORIGIN_CERT_KEY}" > /etc/cloudflare/origin.key
-RUN echo "${ORIGIN_ROOT_CERT}" > /etc/cloudflare/root.pem
+COPY cloudflare/*.* /etc/cloudflare/
 
 # Expose endpoints
 EXPOSE 80

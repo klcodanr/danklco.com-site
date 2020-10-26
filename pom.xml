@@ -1,38 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor
-	license agreements. See the NOTICE file distributed with this work for additional
-	information regarding copyright ownership. The ASF licenses this file to
-	you under the Apache License, Version 2.0 (the "License"); you may not use
-	this file except in compliance with the License. You may obtain a copy of
-	the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required
-	by applicable law or agreed to in writing, software distributed under the
-	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
-	OF ANY KIND, either express or implied. See the License for the specific
-	language governing permissions and limitations under the License. -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.danklco</groupId>
-	<artifactId>com.danklco.site</artifactId>
+	<artifactId>com.danklco.site.cna</artifactId>
 	<name>DanKlco.com - Site</name>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
-		<sling.host>localhost</sling.host>
-		<sling.port>8080</sling.port>
-		<sling.username>admin</sling.username>
-		<sling.password>admin</sling.password>
-		<sling.protocol>http</sling.protocol>
+
+		<!-- Application Settings -->
+		<MAXMIND_LICENSE_KEY>${env.MAXMIND_LICENSE_KEY}</MAXMIND_LICENSE_KEY>
+		<SMTP_HOST>${env.SMTP_HOST}</SMTP_HOST>
+		<SMTP_USERNAME>${env.SMTP_USERNAME}</SMTP_USERNAME>
+		<SMTP_ENC_PASSWORD>${env.SMTP_ENC_PASSWORD}</SMTP_ENC_PASSWORD>
+
+		<!-- Cloudflare Cert Settings -->
+		<ORIGIN_CERT>${env.ORIGIN_CERT}</ORIGIN_CERT>
+		<ORIGIN_CERT_KEY>${env.ORIGIN_CERT_KEY}</ORIGIN_CERT_KEY>
+		<ORIGIN_ROOT_CERT>${env.ORIGIN_ROOT_CERT}</ORIGIN_ROOT_CERT>
+
+		<!-- Various Passwords / Tokens -->
+		<GITHUB_TOKEN>${env.GITHUB_TOKEN}</GITHUB_TOKEN>
+		<SHARED_PASSWORD>${env.SHARED_PASSWORD}</SHARED_PASSWORD>
+
+		<!-- Project Settings -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.wagon.http.pool>false</maven.wagon.http.pool>
 	</properties>
 
 	<modules>
 		<module>bundle</module>
 		<module>feature</module>
+		<module>images</module>
 	</modules>
+
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>GitHub Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/klcodanr/danklco.com-site-cna</url>
+		</repository>
+	</distributionManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>3.0.0-M1</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 
 </project>

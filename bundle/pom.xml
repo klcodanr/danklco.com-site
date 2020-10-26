@@ -13,10 +13,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
         <groupId>com.danklco</groupId>
-        <artifactId>com.danklco.site</artifactId>
+        <artifactId>com.danklco.site.cna</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-	<artifactId>com.danklco.site.bundle</artifactId>
+	<artifactId>com.danklco.site.cna.bundle</artifactId>
 	<name>DanKlco.com - Site Bundle</name>
 	<packaging>bundle</packaging>
 

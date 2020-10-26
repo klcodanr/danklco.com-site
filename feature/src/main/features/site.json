@@ -1,7 +1,7 @@
 {
     "bundles": [
         {
-            "id": "com.danklco:com.danklco.slingcms.plugins.disqus:1.0",
+            "id": "com.danklco:com.danklco.slingcms.plugins.disqus:1.1-SNAPSHOT",
             "start-order": "20"
         },
         {
@@ -9,7 +9,7 @@
             "start-order": "20"
         },
         {
-            "id": "com.danklco:com.danklco.site.bundle:1.0.0-SNAPSHOT",
+            "id": "com.danklco:com.danklco.site.cna.bundle:1.0.0-SNAPSHOT",
             "start-order": "20"
         }
     ],
@@ -25,7 +25,7 @@
             "names": [
                 "default"
             ],
-            "path": "/data/slingcms/passwd"
+            "path": "/opt/slingcms/passwd"
         },
         "org.apache.sling.commons.crypto.jasypt.internal.JasyptRandomIvGeneratorRegistrar~default": {
             "algorithm": "SHA1PRNG"
