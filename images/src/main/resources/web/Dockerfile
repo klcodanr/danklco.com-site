@@ -8,8 +8,6 @@
 #        License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
 #        either express or implied. See the License for the specific language governing permissions
 #        and limitations under the License.
-#
-# Apache Sling CMS Web Cache Dockerfile
 
 # Pull base image.
 FROM ubuntu:latest
@@ -18,28 +16,21 @@ FROM ubuntu:latest
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Install Apache
-RUN apt-get update && apt-get install apache2 -y
+RUN apt-get update && apt-get install apache2 -y \
+     && rm -rf /var/lib/apt/lists/*
 
-# Configure mod_rewrite
-RUN a2enmod rewrite
-
-# Configure mod_proxy
-RUN a2enmod proxy
-RUN a2enmod proxy_http
-
-# Configure mod_cache and mod_expire
-RUN a2enmod cache
-RUN a2enmod cache_disk
-RUN a2enmod expires
-RUN a2enmod headers
+# Enable Apache modules
+RUN a2enmod rewrite && a2enmod proxy && a2enmod proxy_http && a2enmod cache \
+     && a2enmod cache_disk && a2enmod expires && a2enmod headers && a2enmod ssl
 
 # Configure sites
-RUN mkdir -p /var/www/vhosts/sling-cms && mkdir -p /var/www/vhosts/sling && mkdir -p /etc/cloudflare
+RUN mkdir -p /etc/cloudflare 
 COPY *.conf /etc/apache2/sites-enabled/
-COPY cloudflare/*.* /etc/cloudflare/
+COPY 503.html /var/www/html
+COPY cloudflare/ /etc/cloudflare/
 
 # Expose endpoints
-EXPOSE 80
+EXPOSE 80 443
 
 # Start Apache httpd
 RUN service apache-htcacheclean start
